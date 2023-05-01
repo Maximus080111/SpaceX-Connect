@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { Button, ScrollView, ScrollViewBase, StyleSheet, Text, View, SafeAreaView, ImageBackground, Image } from 'react-native';
+import React, {useCallback} from 'react';
+import { Button, Alert, Linking, ScrollView, ScrollViewBase, StyleSheet, Text, View, SafeAreaView, ImageBackground, Image } from 'react-native';
 import Details from './screens/Details.js'
 import Settings from './screens/Settings.js'
 
@@ -15,15 +15,19 @@ function HomeScreen({ navigation }) {
 		<SafeAreaView style={styles.container}>
 			{/* this part is for the profile pictures and welcome text */}
 			<View style={styles.profileBox}>
-				<View style={styles.profile}>
-					<Image style={styles.profile} source={profile}></Image>
-				</View>
+				<Image style={styles.profile} source={profile}></Image>
 				<Text style={styles.welcome}>Welcome User</Text>
 			</View>
 
 			{/* This part is for the upcoming launch  */}
-			<View>
-
+			<View style={styles.upcomingLaunch}>
+				<Image style={styles.launch_img}></Image>
+				<View style={styles.view_launch}>
+					<Text style={styles.launch_text_title}>Hoi</Text>
+					<Text style={styles.launch_text_title}>2022-10-05</Text>
+					<OpenURLButton url={supportedURL}>Open Supported URL</OpenURLButton>
+					<OpenURLButton url={unsupportedURL}>Open unsupported URL</OpenURLButton>
+				</View>
 			</View>
 			<Text>Open up App.js to start working on your app!</Text>
 			<Button
@@ -36,6 +40,21 @@ function HomeScreen({ navigation }) {
 			<StatusBar style="auto" />
 		</SafeAreaView>
 	);
+}
+
+const supportedURL = 'https://youtu.be/RfiQYRn7fBg';
+const unsupportedURL = 'slack://open?team=123456';
+
+const OpenURLButton = ({url, children}) => {
+	const handlePress = useCallback(async () => {
+		const supported = await Linking.canOpenURL(url);
+		if(supported) {
+			await Linking.openURL(url);
+		} else {
+			Alert.alert(`Don't know how to open this URL: ${url}`);
+		}
+	}, [url]);
+	return <Button title={children} onPress={handlePress} />;
 }
 
 const Tab = createBottomTabNavigator();
@@ -93,7 +112,6 @@ const styles = StyleSheet.create({
 		flex: 1, 
 		flexDirection: 'row',
 		alignItems: 'center',
-		justifyContent: 'flex-end',
 	},
 	profile: {
 		height: 80,
@@ -102,5 +120,26 @@ const styles = StyleSheet.create({
 	},
 	welcome: {
 		marginLeft: 30,
-	}
+	},
+	upcomingLaunch: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		paddingHorizontal: 10,
+		width: '100%',
+		backgroundColor: '#000',
+		height: 120,
+		borderRadius: 10,
+	},
+	launch_img: {
+		backgroundColor: 'red',
+		width: '40%',
+		height: 100,
+		borderRadius: 5,
+	},
+	launch_text_title: {
+		color: 'white',
+	},
+	view_launch: {
+		paddingLeft: 10,
+	},
 });
