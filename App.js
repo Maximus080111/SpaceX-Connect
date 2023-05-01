@@ -21,7 +21,10 @@ function HomeScreen({ navigation }) {
 				<Text style={styles.welcome}>Welcome User</Text>
 			</View>
 
+			{/* This part is for the upcoming launch  */}
+			<View>
 
+			</View>
 			<Text>Open up App.js to start working on your app!</Text>
 			<Button
 				title='Go to Details'
