@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useEffect, useState} from 'react';
-import { Button, FlatList, ScrollView, StyleSheet, Text, View } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import React from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import Details from './screens/Details.js'
 
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 
 function HomeScreen({ navigation }) {
 	return (
@@ -15,7 +15,7 @@ function HomeScreen({ navigation }) {
 				title='Go to Details'
 				onPress={() => navigation.navigate('Details', {
 					itemId: 86,
-					otherParam: 'anything you want here',
+					otherParam: 'anything you want here!!!!!',
 				})}
 			/>
 			<StatusBar style="auto" />
@@ -23,60 +23,33 @@ function HomeScreen({ navigation }) {
 	);
 }
 
-function DetailsScreen({route, navigation}) {
-
-	const {itemId, otherParam} = route.params;
-
-	return (
-	  <View style={styles.container}>
-		<Text>Details Screen</Text>
-		<Text>itemId: {JSON.stringify(itemId)}</Text>
-		<Text>otherParam: {JSON.stringify(otherParam)}</Text>
-		<Button
-			title="Go to Details... again"
-			onPress={() =>
-			navigation.push('Details', {
-				itemId: Math.floor(Math.random() * 100),
-			})
-			}
-		/>
-		<Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-		<Button title="Go back" onPress={() => navigation.goBack()} />
-		{/* <MapView
-					provider={PROVIDER_GOOGLE}
-					style={styles.map}
-					//specify our coordinates.
-					initialRegion={{
-						latitude: 28.485833,
-						longitude: -80.544444,
-						latitudeDelta: 0.0922,
-						longitudeDelta: 0.0421,
-					}}
-				>
-					<Marker
-						coordinate={{
-							latitude:  28.485833,
-							longitude: -80.544444,
-						}}
-						title={'test'}
-					/>
-				</MapView> */}
-	  </View>
-	);
-  }
-
 const Tab = createBottomTabNavigator();
 
 export default function App() {
 		return (
 			<NavigationContainer>
-				<Tab.Navigator>
-        			<Tab.Screen name="Home" component={HomeScreen} options={{title: 'HomeScreen'}} />
-					<Tab.Screen name="Details" component={DetailsScreen}  initialParams={{ itemId: 42 }}/>
+				<Tab.Navigator screenOptions={screenOptionStyle}>
+        			<Tab.Screen name="Home" component={HomeScreen} />
+					<Tab.Screen name="Details" component={Details}  initialParams={{ itemId: 42 }}/>
       			</Tab.Navigator>
 			</NavigationContainer>
 		);
 }
+
+const screenOptionStyle = {
+	headerShown: false,
+	tabBarStyle: {
+		backgroundColor: '#000',
+		height: 80,
+		borderTopLeftRadius: 10,
+		borderTopRightRadius: 10,
+	},
+	tabBarLabelStyle: {
+		color: '#fff',
+		paddingVertical: 5,
+	}
+}
+
 
 const styles = StyleSheet.create({
 	container: {
@@ -84,8 +57,5 @@ const styles = StyleSheet.create({
 		backgroundColor: '#fff',
 		alignItems: 'center',
 		justifyContent: 'center',
-	},
-	map: {
-		...StyleSheet.absoluteFillObject,
 	},
 });
