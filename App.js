@@ -13,12 +13,15 @@ const profile = {uri: 'https://reactjs.org/logo-og.png'};
 function HomeScreen({ navigation }) {
 	return (
 		<SafeAreaView style={styles.container}>
+			{/* this part is for the profile pictures and welcome text */}
 			<View style={styles.profileBox}>
 				<View style={styles.profile}>
 					<Image style={styles.profile} source={profile}></Image>
 				</View>
 				<Text style={styles.welcome}>Welcome User</Text>
 			</View>
+
+
 			<Text>Open up App.js to start working on your app!</Text>
 			<Button
 				title='Go to Details'
