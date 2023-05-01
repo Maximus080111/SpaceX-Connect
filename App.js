@@ -5,7 +5,7 @@ import Details from './screens/Details.js'
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
+import AntDesign from '@expo/vector-icons/AntDesign.js';
 
 function HomeScreen({ navigation }) {
 	return (
@@ -28,28 +28,39 @@ const Tab = createBottomTabNavigator();
 export default function App() {
 		return (
 			<NavigationContainer>
-				<Tab.Navigator screenOptions={screenOptionStyle}>
+				<Tab.Navigator screenOptions={({ route }) => ({
+						tabBarIcon: ({ focused, color, size }) => {
+							let iconName;
+
+							if (route.name === 'Home') {
+								iconName = focused ? 'infocirlce' : 'infocirlceo';
+							} else if (route.name === 'Details') {
+								iconName = focused ? 'pluscircle' : 'pluscircleo';
+							}
+
+							// You can return any component that you like here!
+							return <AntDesign name={iconName} size={size} color={color} />;
+						},
+						tabBarActiveTintColor: 'white',
+						tabBarInactiveTintColor: 'gray',
+						headerShown: false,
+						tabBarStyle: {
+							backgroundColor: '#000',
+							height: 80,
+							borderTopLeftRadius: 15,
+							borderTopRightRadius: 15,
+						},
+						tabBarLabelStyle: {
+							color: '#fff',
+							paddingVertical: 5,
+						}
+					})}>
         			<Tab.Screen name="Home" component={HomeScreen} />
 					<Tab.Screen name="Details" component={Details}  initialParams={{ itemId: 42 }}/>
       			</Tab.Navigator>
 			</NavigationContainer>
 		);
 }
-
-const screenOptionStyle = {
-	headerShown: false,
-	tabBarStyle: {
-		backgroundColor: '#000',
-		height: 80,
-		borderTopLeftRadius: 10,
-		borderTopRightRadius: 10,
-	},
-	tabBarLabelStyle: {
-		color: '#fff',
-		paddingVertical: 5,
-	}
-}
-
 
 const styles = StyleSheet.create({
 	container: {
