@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, ScrollView, ScrollViewBase, StyleSheet, Text, View, SafeAreaView, ImageBackground, Image } from 'react-native';
 import Details from './screens/Details.js'
 import Settings from './screens/Settings.js'
 
@@ -8,9 +8,17 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons.js';
 
+const profile = {uri: 'https://reactjs.org/logo-og.png'};
+
 function HomeScreen({ navigation }) {
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
+			<View style={styles.profileBox}>
+				<View style={styles.profile}>
+					<Image style={styles.profile} source={profile}></Image>
+				</View>
+				<Text style={styles.welcome}>Welcome User</Text>
+			</View>
 			<Text>Open up App.js to start working on your app!</Text>
 			<Button
 				title='Go to Details'
@@ -20,7 +28,7 @@ function HomeScreen({ navigation }) {
 				})}
 			/>
 			<StatusBar style="auto" />
-		</View>
+		</SafeAreaView>
 	);
 }
 
@@ -71,7 +79,22 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#fff',
-		alignItems: 'center',
+		alignItems: 'flex-start',
 		justifyContent: 'center',
+		paddingHorizontal: 20,
 	},
+	profileBox: {
+		flex: 1, 
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'flex-end',
+	},
+	profile: {
+		height: 80,
+		width: 80,
+		borderRadius: 50
+	},
+	welcome: {
+		marginLeft: 30,
+	}
 });
