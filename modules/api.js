@@ -16,7 +16,6 @@ const apiLib = {
 
 export async function createRequest(module, queryParams = ""){
     let url = apiLib[module.toLowerCase()] + queryParams;
-    console.log(url)
     let request = await fetch(url);
     let responseText = await request.text();
     return JSON.parse(responseText);
