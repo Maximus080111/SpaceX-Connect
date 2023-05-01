@@ -5,7 +5,6 @@ import * as Location from 'expo-location';
 import MapView, { Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 
 export default function DetailsScreen({route, navigation}) {
-
 	const {itemId, otherParam} = route.params;
 
 	const [region, setRegion] = useState({
