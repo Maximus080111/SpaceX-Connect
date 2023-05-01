@@ -2,10 +2,11 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 import Details from './screens/Details.js'
+import Settings from './screens/Settings.js'
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import AntDesign from '@expo/vector-icons/AntDesign.js';
+import Ionicons from '@expo/vector-icons/Ionicons.js';
 
 function HomeScreen({ navigation }) {
 	return (
@@ -33,13 +34,15 @@ export default function App() {
 							let iconName;
 
 							if (route.name === 'Home') {
-								iconName = focused ? 'infocirlce' : 'infocirlceo';
+								iconName = focused ? 'rocket' : 'rocket-outline';
 							} else if (route.name === 'Details') {
-								iconName = focused ? 'pluscircle' : 'pluscircleo';
+								iconName = focused ? 'information-circle' : 'information-circle-outline';
+							} else if (route.name === 'Settings') {
+								iconName = focused ? 'settings' : 'settings-outline';
 							}
 
 							// You can return any component that you like here!
-							return <AntDesign name={iconName} size={size} color={color} />;
+							return <Ionicons name={iconName} size={size} color={color} />;
 						},
 						tabBarActiveTintColor: 'white',
 						tabBarInactiveTintColor: 'gray',
@@ -47,6 +50,7 @@ export default function App() {
 						tabBarStyle: {
 							backgroundColor: '#000',
 							height: 80,
+							paddingHorizontal: 15,
 							borderTopLeftRadius: 15,
 							borderTopRightRadius: 15,
 						},
@@ -55,8 +59,9 @@ export default function App() {
 							paddingVertical: 5,
 						}
 					})}>
-        			<Tab.Screen name="Home" component={HomeScreen} />
 					<Tab.Screen name="Details" component={Details}  initialParams={{ itemId: 42 }}/>
+					<Tab.Screen name="Home" component={HomeScreen} />
+					<Tab.Screen name="Settings" component={Settings} />
       			</Tab.Navigator>
 			</NavigationContainer>
 		);
