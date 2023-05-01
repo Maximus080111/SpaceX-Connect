@@ -4,6 +4,8 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import * as Location from 'expo-location';
 import MapView, { Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 
+import * as api from '../modules/api.js'
+
 export default function DetailsScreen({route, navigation}) {
 	const {itemId, otherParam} = route.params;
 
