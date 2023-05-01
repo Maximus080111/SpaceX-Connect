@@ -1,16 +1,28 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useCallback} from 'react';
-import { Button, Alert, Linking, Pressable, StyleSheet, Text, View, SafeAreaView, Image } from 'react-native';
+import React, {useCallback, useState} from 'react';
+import { Button, Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View, SafeAreaView, Image } from 'react-native';
 import Details from './screens/Details.js'
 import Settings from './screens/Settings.js'
+import Card from './components/card.js'
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons.js';
+import Rocket from './screens/Rocket.js';
 
 const profile = {uri: 'https://reactjs.org/logo-og.png'};
 
 function HomeScreen({ navigation }) {
+
+	let [cards, setCards] = useState([]);
+
+	useEffect(() => {
+        (async () => {
+            let response = await api.createRequest("Rockets");
+            setCards(response);
+        })();
+    }, [])
+
 	return (
 		<SafeAreaView style={styles.container}>
 			{/* this part is for the profile pictures and welcome text */}
@@ -28,8 +40,18 @@ function HomeScreen({ navigation }) {
 					<OpenURLButton url={supportedURL}>Watch Back</OpenURLButton>
 				</View>
 			</View>
+			<View style={styles.scrollview}>
+				<Text style={styles.RocketsTitle}>All rockets:</Text>
+				<ScrollView horizontal={true}>
+					{cards[0] !== 0 && cards.map((card) => {
+						return (
+								<Card onPress={(card) => navigation.navigate('Rocket', {RocketId: route.param.itemId})} />
+							);
+                		})
+                	}
+				</ScrollView>
+			</View>
 
-			<OpenURLButton url={unsupportedURL}>Open unsupported URL</OpenURLButton>
 			<Text>Open up App.js to start working on your app!</Text>
 			<Button
 				title='Go to Details'
@@ -105,11 +127,10 @@ const styles = StyleSheet.create({
 		flex: 1,
 		backgroundColor: '#fff',
 		alignItems: 'flex-start',
-		justifyContent: 'center',
+		justifyContent: 'space-evenly',
 		paddingHorizontal: 20,
 	},
 	profileBox: {
-		flex: 1, 
 		flexDirection: 'row',
 		alignItems: 'center',
 	},
@@ -159,5 +180,13 @@ const styles = StyleSheet.create({
 	watchback_text: {
 		color: 'white',
 		fontSize: 11,
+	},
+	scrollview: {
+		height: 170,
+	},
+	RocketsTitle: {
+		fontSize: 24,
+		fontWeight: 800,
+		marginBottom: 5,
 	}
 });
