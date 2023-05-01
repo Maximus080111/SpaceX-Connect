@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useCallback} from 'react';
-import { Button, Alert, Linking, ScrollView, ScrollViewBase, StyleSheet, Text, View, SafeAreaView, ImageBackground, Image } from 'react-native';
+import { Button, Alert, Linking, Pressable, StyleSheet, Text, View, SafeAreaView, Image } from 'react-native';
 import Details from './screens/Details.js'
 import Settings from './screens/Settings.js'
 
@@ -23,12 +23,13 @@ function HomeScreen({ navigation }) {
 			<View style={styles.upcomingLaunch}>
 				<Image style={styles.launch_img}></Image>
 				<View style={styles.view_launch}>
-					<Text style={styles.launch_text_title}>Hoi</Text>
-					<Text style={styles.launch_text_title}>2022-10-05</Text>
-					<OpenURLButton url={supportedURL}>Open Supported URL</OpenURLButton>
-					<OpenURLButton url={unsupportedURL}>Open unsupported URL</OpenURLButton>
+					<Text style={styles.launch_text_title}>FALCON 9 HEAVY</Text>
+					<Text style={styles.launch_text_date}>2022-10-05</Text>
+					<OpenURLButton url={supportedURL}>Watch Back</OpenURLButton>
 				</View>
 			</View>
+
+			<OpenURLButton url={unsupportedURL}>Open unsupported URL</OpenURLButton>
 			<Text>Open up App.js to start working on your app!</Text>
 			<Button
 				title='Go to Details'
@@ -54,7 +55,7 @@ const OpenURLButton = ({url, children}) => {
 			Alert.alert(`Don't know how to open this URL: ${url}`);
 		}
 	}, [url]);
-	return <Button title={children} onPress={handlePress} />;
+	return <Pressable style={styles.watchBack} onPress={handlePress} ><Text style={styles.watchback_text}>{children}</Text></Pressable>;
 }
 
 const Tab = createBottomTabNavigator();
@@ -74,34 +75,33 @@ export default function App() {
 								iconName = focused ? 'settings' : 'settings-outline';
 							}
 
-							// You can return any component that you like here!
-							return <Ionicons name={iconName} size={size} color={color} />;
-						},
-						tabBarActiveTintColor: 'white',
-						tabBarInactiveTintColor: 'gray',
-						headerShown: false,
-						tabBarStyle: {
-							backgroundColor: '#000',
-							height: 80,
-							paddingHorizontal: 15,
-							borderTopLeftRadius: 15,
-							borderTopRightRadius: 15,
-						},
-						tabBarLabelStyle: {
-							color: '#fff',
-							paddingVertical: 5,
-						}
-					})}>
-					<Tab.Screen name="Details" component={Details}  initialParams={{ itemId: 42 }}/>
-					<Tab.Screen name="Home" component={HomeScreen} />
-					<Tab.Screen name="Settings" component={Settings} />
-      			</Tab.Navigator>
-			</NavigationContainer>
-		);
+					// You can return any component that you like here!
+					return <Ionicons name={iconName} size={size} color={color} />;
+				},
+				tabBarActiveTintColor: 'white',
+				tabBarInactiveTintColor: 'gray',
+				headerShown: false,
+				tabBarStyle: {
+					backgroundColor: '#000',
+					height: 80,
+					paddingHorizontal: 15,
+				},
+				tabBarLabelStyle: {
+					color: '#fff',
+					paddingVertical: 5,
+				}
+			})}>
+				<Tab.Screen name="Details" component={Details}  initialParams={{ itemId: 42 }}/>
+				<Tab.Screen name="Home" component={HomeScreen} />
+				<Tab.Screen name="Settings" component={Settings} />
+			</Tab.Navigator>
+		</NavigationContainer>
+	);
 }
 
 const styles = StyleSheet.create({
 	container: {
+		fontFamily: 'Roboto',
 		flex: 1,
 		backgroundColor: '#fff',
 		alignItems: 'flex-start',
@@ -138,8 +138,26 @@ const styles = StyleSheet.create({
 	},
 	launch_text_title: {
 		color: 'white',
+		fontWeight: 900
+	},
+	launch_text_date: {
+		color: 'white',
+		fontWeight: 700
 	},
 	view_launch: {
 		paddingLeft: 10,
 	},
+	watchBack: {
+		marginTop: 5,
+		backgroundColor: '#013766',
+		paddingHorizontal: 15,
+		paddingVertical: 8,
+		borderRadius: 5,
+		width: 100,
+		textAlign: 'center',
+	},
+	watchback_text: {
+		color: 'white',
+		fontSize: 11,
+	}
 });
