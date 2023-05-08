@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 import * as Location from 'expo-location';
 import MapView, { Marker, PROVIDER_GOOGLE} from 'react-native-maps';
@@ -68,7 +68,7 @@ function MapViewRender({navigation}) {
 	}
 
 	return (
-		<View style={styles.container}>
+		<SafeAreaView style={styles.container}>
 			<MapView
 				provider={PROVIDER_GOOGLE}
 				style={styles.map}
@@ -112,7 +112,7 @@ function MapViewRender({navigation}) {
 				})
 				}
 			</MapView>
-		</View>
+		</SafeAreaView>
 	)
 }
 
