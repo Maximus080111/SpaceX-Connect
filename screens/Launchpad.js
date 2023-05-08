@@ -15,7 +15,6 @@ export default function LaunchpadScreen({navigation, route}) {
     });
 
     let [launches, setLaunches] = useState([]);
-
     useEffect(() => {
         (async () => {
             let result = await api.createRequest("launchpads", launchPadID)
@@ -24,6 +23,18 @@ export default function LaunchpadScreen({navigation, route}) {
             for(let id in result.launches){
                 let launch =  await api.createRequest("launches", result.launches[id]);
                 launches.push(launch);
+            }
+            console.log(result.launches.length)
+            if(launches.length === 0){
+                launches.push({
+                    id: "notfound",
+                    name: "No launches have taken place on this location",
+                    links: {
+                        patch: {
+                            small: "https://google.com"
+                        }
+                    }
+                })
             }
             setLaunches(launches);
         })()
@@ -57,12 +68,18 @@ export default function LaunchpadScreen({navigation, route}) {
                     <Card.Title title="Launches"/>
                     <Card.Content>
                         <ScrollView horizontal={true}>
-                            {launches[0] !== 0 && launches.map((card) => {
+                            {launches[0] !== 0 && launches[0].id !== "notfound" && launches.map((card) => {
                                 return (
                                     <Card key={card.id} style={{width: 200, marginRight: 20}}>
                                         <Card.Title title={card.name}/>
                                         <Card.Cover source={{uri: card.links.patch.small}}></Card.Cover>
                                     </Card>
+                                );
+                            })
+                            }
+                            {launches.length === 1 && launches[0].id === "notfound" && launches.map((card) => {
+                                return (
+                                    <Text>{card.name}</Text>
                                 );
                             })
                             }
