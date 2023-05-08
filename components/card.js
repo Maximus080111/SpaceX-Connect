@@ -8,7 +8,7 @@ const image = {uri: 'https://reactjs.org/logo-og.png'}
 export default function Card({navigation}) {
 	return (
         <Pressable style={styles.card}>
-        <Text style={styles.text}>Hoi</Text>
+        <Text style={styles.text}>{card.name}</Text>
             <View style={styles.overlay}></View>
             <Image source={image} style={styles.background_img} />
                 {/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />

@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useCallback, useState} from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import { Button, Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View, SafeAreaView, Image } from 'react-native';
 import Details from './screens/Details.js'
 import Settings from './screens/Settings.js'
@@ -9,6 +9,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from '@expo/vector-icons/Ionicons.js';
 import Rocket from './screens/Rocket.js';
+import * as api from './modules/api.js';
 
 const profile = {uri: 'https://reactjs.org/logo-og.png'};
 
@@ -22,6 +23,14 @@ function HomeScreen({ navigation }) {
             setCards(response);
         })();
     }, [])
+
+
+	let openRocket = async (rocket) => {
+		let rocketID = rocket._targetInst.return.key;
+		navigation.navigate("Rocket", {
+			"rocketID": rocketID
+		});
+	}
 
 	return (
 		<SafeAreaView style={styles.container}>
@@ -45,7 +54,13 @@ function HomeScreen({ navigation }) {
 				<ScrollView horizontal={true}>
 					{cards[0] !== 0 && cards.map((card) => {
 						return (
-								<Card onPress={(card) => navigation.navigate('Rocket', {RocketId: route.param.itemId})} />
+							<Pressable key={card.id} onPress={(card) => {openRocket(card)}}  style={styles.card}>
+							<Text style={styles.text}>{card.name}</Text>
+								<View style={styles.overlay}></View>
+								<Image source={{uri: card.flickr_images[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
+									{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+									<Button title="Go back" onPress={() => navigation.goBack()} /> */}
+								</Pressable>
 							);
                 		})
                 	}
@@ -188,5 +203,36 @@ const styles = StyleSheet.create({
 		fontSize: 24,
 		fontWeight: 800,
 		marginBottom: 5,
-	}
+	},
+	card: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 120,
+        width: 120,
+		backgroundColor: 'pink',
+        marginRight: 10,
+        borderRadius: 5,
+	},
+    background_img: {
+        position: 'absolute',
+        height: '100%',
+        width:  '100%',
+        borderRadius: 5,
+        zIndex: -1,
+    },
+    text: {
+        zIndex: 10,
+		fontWeight: '800',
+        color: 'white',
+		fontSize: 18,
+    },
+    overlay: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        borderRadius: 5,
+		
+    }
 });

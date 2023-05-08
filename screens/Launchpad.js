@@ -22,7 +22,7 @@ export default function LaunchpadScreen({navigation, route}) {
 
     return (
         <View style={styles.container}>
-            <Image source={{uri: response.images.large[0]}} style={{width: '80%', height: '40%', borderRadius: 10}} resizeMode="contain"/>
+            <Image source={{uri: response.images.large[0]}} style={{width: '80%', height: '30%', borderRadius: 10}} resizeMode="cover"/>
             <Text>SettingsScreen2</Text>
             <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
             <Button title="Go back" onPress={() => navigation.goBack()} />
