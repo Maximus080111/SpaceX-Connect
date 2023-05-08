@@ -34,7 +34,13 @@ function HomeScreenRender({ navigation }) {
 
 	let [cards, setCards] = useState([]);
 
-	let [nextlaunch, setNextLaunch] = useState({});
+	let [nextlaunch, setNextLaunch] = useState([
+		{
+			links: {
+				webcast: "https://youtu.be/pY628jRd6gM"
+			}
+		}
+	]);
 
 	let [launchpads, setLaunchpads] = useState([
 		{
@@ -98,7 +104,7 @@ function HomeScreenRender({ navigation }) {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<ScrollView>
+			<ScrollView showsVerticalScrollIndicator={false}>
 				<View style={styles.profileBox}>
 					<Image style={styles.profile} source={profile}></Image>
 					<Text style={styles.welcome}>Welcome User</Text>
@@ -116,7 +122,7 @@ function HomeScreenRender({ navigation }) {
 				</View>
 				<View style={styles.scrollview}>
 					<Text style={styles.RocketsTitle}>All rockets:</Text>
-					<ScrollView horizontal={true}>
+					<ScrollView horizontal={true} scroll>
 						{cards[0] !== 0 && cards.map((card) => {
 							return (
 								<TouchableOpacity key={card.id} onPress={(event) => {openRocket(card.id)}}  style={styles.card}>
@@ -226,7 +232,7 @@ export default function App(navigation, route) {
 
 	return (
 		<NavigationContainer>
-			<Tab.Navigator screenOptions={({ route }) => ({
+			<Tab.Navigator initialRouteName='Home' screenOptions={({ route }) => ({
 				tabBarIcon: ({ focused, color, size }) => {
 					let iconName;
 
@@ -275,10 +281,11 @@ const styles = StyleSheet.create({
 	profileBox: {
 		flexDirection: 'row',
 		alignItems: 'center',
+		marginVertical: 20,
 	},
 	profile: {
-		height: 80,
-		width: 80,
+		height: 50,
+		width: 50,
 		borderRadius: 50
 	},
 	welcome: {
