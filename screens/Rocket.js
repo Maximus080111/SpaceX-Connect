@@ -21,12 +21,6 @@ export default function Rocket({navigation, route}) {
     },[]);
 
 	return (
-	//   <View style={styles.container}>
-	// 	<Text>{response.name}</Text>
-	// 	<Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-	// 	<Button title="Go back" onPress={() => navigation.goBack()} />
-	//   </View>
-
 		<View style={{height: '100%', flex: 1,}}>
 		<View style={{height: '60%', justifyContent: 'center', alignItems: 'center'}}>
 			<TouchableOpacity style={{position: 'absolute', left: 0, top: 0, padding: 30, zIndex: 2}} onPress={() => navigation.goBack()}>

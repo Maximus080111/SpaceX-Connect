@@ -91,57 +91,6 @@ export default function LaunchpadScreen({navigation, route}) {
                 </ScrollView>
             </View>
         </View>
-            // {/* <ScrollView contentContainerStyle={{
-            //     alignItems: "center",
-            //     minWidth: "100%",
-            //     paddingTop: 50,
-            //     paddingBottom: 50
-            // }}> */}
-            //     {/* <Card style={{width: '80%'}}>
-            //         <Card.Title title={response.name}/>
-            //         <Card.Cover source={{uri: response.images.large[0]}} />
-            //     </Card>
-            //     <Card style={{width: '80%', marginTop: 20}}>
-            //         <Card.Title title="Volledige naam"/>
-            //         <Card.Content>
-            //             <Text>{response.full_name}</Text>
-            //         </Card.Content>
-            //     </Card>
-            //     <Card style={{width: '80%', marginTop: 20}}>
-            //         <Card.Title title="Extra informatie"/>
-            //         <Card.Content>
-            //             <Text>{response.details}</Text>
-            //         </Card.Content>
-            //     </Card>
-            //     <Card style={{width: '80%', marginTop: 20}}>
-            //         <Card.Title title="Launches"/>
-            //         <Card.Content>
-                        // <ScrollView horizontal={true}>
-                        //     {launches[0] !== 0 && launches[0].id !== "notfound" && launches[0].id !== "loadingitems" && launches.map((card) => {
-                        //         return (
-                        //             <Card key={card.id} style={{width: 200, marginRight: 20}}>
-                        //                 <Card.Title title={card.name}/>
-                        //                 <Card.Cover source={{uri: card.links.patch.small}}></Card.Cover>
-                        //             </Card>
-                        //         );
-                        //     })
-                        //     }
-                        //     {launches.length === 1 && launches[0].id === "notfound" && launches.map((card) => {
-                        //         return (
-                        //             <Text key={card.id}>{card.name}</Text>
-                        //         );
-                        //     })
-                        //     }
-                        //     {launches.length === 1 && launches[0].id === "loadingitems" && launches.map((card) => {
-                        //         return (
-                        //             <ActivityIndicator key={card.id} size="small" color="#0000ff" />
-                        //         );
-                        //     })
-                        //     }
-                        // </ScrollView>
-            //         </Card.Content>
-            //     </Card> */}
-            // {/* </ScrollView> */}
     );
 }
 
