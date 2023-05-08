@@ -90,7 +90,7 @@ export default function LaunchpadScreen({navigation, route}) {
                             }
                             {launches.length === 1 && launches[0].id === "loadingitems" && launches.map((card) => {
                                 return (
-                                    <ActivityIndicator key={card.id} size="small" color="#0000ff" />
+                                    <ActivityIndicator key={card.id} size="small" color="#000000" />
                                 );
                             })
                             }
