@@ -26,6 +26,7 @@ import * as api from './modules/api.js';
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Launchpad from "./screens/Launchpad";
 import Landpad from "./screens/Landpad";
+import LaunchScreen from './screens/Launch.js';
 
 const profile = {uri: 'https://reactjs.org/logo-og.png'};
 
@@ -172,7 +173,7 @@ function HomeScreenRender({ navigation }) {
 				<ScrollView horizontal={true}>
 					{launches[0] !== 0 && launches.map((launches) => {
 						return (
-							<TouchableOpacity key={launches.id} style={styles.card} onPress={(event) => {openLandpad(launches.id)}}>
+							<TouchableOpacity key={launches.id} style={styles.card} onPress={(event) => {openLaunch(launches.id)}}>
 								<Text style={styles.text}>{launches.name}</Text>
 								<View style={styles.overlay}></View>
 								<Image source={{uri: launches.links.patch.small}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
@@ -212,9 +213,9 @@ function HomeScreen() {
 		<Stack.Navigator>
 			<Stack.Screen name="App" component={HomeScreenRender} options={{ headerShown: false }}/>
 			<Stack.Screen name="Rocket" component={Rocket} options={{ headerShown: false }}/>
-			<Stack.Screen name="Launchpad" component={Launchpad} options={{ headerShown: true }}/>
-			<Stack.Screen name="Landpad" component={Landpad} options={{ headerShown: true }}/>
-			<Stack.Screen name="Launches" component={Launchpad} options={{ headerShown: true }}/>
+			<Stack.Screen name="Launchpad" component={Launchpad} options={{ headerShown: false }}/>
+			<Stack.Screen name="Landpad" component={Landpad} options={{ headerShown: false }}/>
+			<Stack.Screen name="Launch" component={LaunchScreen} options={{ headerShown: false }}/>
 		</Stack.Navigator>
 	);
 }
@@ -231,8 +232,8 @@ export default function App(navigation, route) {
 
 					if (route.name === 'Home') {
 						iconName = focused ? 'rocket' : 'rocket-outline';
-					} else if (route.name === 'Details') {
-						iconName = focused ? 'information-circle' : 'information-circle-outline';
+					} else if (route.name === 'Map') {
+						iconName = focused ? 'map' : 'map-outline';
 					} else if (route.name === 'Settings') {
 						iconName = focused ? 'settings' : 'settings-outline';
 					}
@@ -253,7 +254,7 @@ export default function App(navigation, route) {
 					paddingVertical: 5,
 				}
 			})}>
-				<Tab.Screen name="Details" component={Details}  initialParams={{ itemId: 42 }}/>
+				<Tab.Screen name="Map" component={Details}  initialParams={{ itemId: 42 }}/>
 				<Tab.Screen name="Home" component={HomeScreen} />
 				<Tab.Screen name="Settings" component={Settings} />
 			</Tab.Navigator>
@@ -338,7 +339,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         height: 120,
         width: 120,
-		backgroundColor: 'pink',
+		backgroundColor: 'darkblue',
         marginRight: 10,
         borderRadius: 5,
 	},

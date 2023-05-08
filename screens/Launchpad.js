@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {Button, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ActivityIndicator, Card} from 'react-native-paper';
 import * as api from '../modules/api.js';
+import arrow from '../imgs/Back.png';
 
 export default function LaunchpadScreen({navigation, route}) {
     const {launchPadID, otherParam} = route.params;
@@ -50,14 +51,18 @@ export default function LaunchpadScreen({navigation, route}) {
     },[]);
 
     return (
-        <ScrollView contentContainerStyle={{height: '100%'}}>
-                <View style={{height: '40%', justifyContent: 'center', alignItems: 'center'}}>
-                    <Text style={{position: 'absolute', fontWeight: 'bold', color: 'white', fontSize: 42}}>{response.name}</Text>
-                    <View style={{width: '100%', height: '100%', position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.3)', zIndex: -1}}></View>
-                    <Image style={{width: '100%', height: '100%', zIndex: -2,}} source={{uri: response.images.large[0]}} resizeMode='cover' />
-                </View>
-                <ScrollView style={{paddingHorizontal: 20}}>
-                    <Text style={{textAlign: 'center', marginVertical: 20, fontWeight: 'bold', fontSize: 18}}>{response.full_name}</Text>
+        <View style={{height: '100%', flex: 1,}}>
+            <View style={{height: '60%', justifyContent: 'center', alignItems: 'center'}}>
+                 <TouchableOpacity style={{position: 'absolute', left: 0, top: 0, padding: 30, zIndex: 2}} onPress={() => navigation.goBack()}>
+                    <Image style={{position: 'relative', top: 40}} source={arrow} />
+                </TouchableOpacity>
+                <Image style={{position: 'absolute', height: '100%', width: '100%'}} source={{uri: response.images.large[0]}} resizeMode='cover'/>
+                <View style={{width: '100%', height: '100%', position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.35)'}}></View>
+                <Text style={{fontWeight: 'bold', color: 'white', fontSize: 42}}>{response.name}</Text>
+            </View>
+            <View style={{height: '50%', padding: 20, backgroundColor: '#fff', width: '100%', position: 'absolute', bottom: 0, borderTopLeftRadius: 10, borderTopRightRadius: 10}}>
+                <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 18, marginBottom: 15}}>{response.full_name}</Text>
+                <ScrollView>
                     <Text>{response.details}</Text>
                     <ScrollView contentContainerStyle={{marginVertical: 20}} horizontal={true}>
                             {launches[0] !== 0 && launches[0].id !== "notfound" && launches[0].id !== "loadingitems" && launches.map((card) => {
@@ -67,10 +72,6 @@ export default function LaunchpadScreen({navigation, route}) {
                                         <View style={{width: '100%', height: '100%', position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.3)', zIndex: -1, borderRadius: 5}}></View>
                                         <Image style={{position: 'absolute', height: '100%', width: '100%', borderRadius: 5, zIndex: -2}} source={{uri: card.links.patch.small}} />
                                     </View>
-                                    // <Card key={card.id} style={{width: 200, marginRight: 20}}>
-                                    //     <Card.Title title={card.name}/>
-                                    //     <Card.Cover source={{uri: card.links.patch.small}}></Card.Cover>
-                                    // </Card>
                                 );
                             })
                             }
@@ -88,7 +89,8 @@ export default function LaunchpadScreen({navigation, route}) {
                             }
                         </ScrollView>
                 </ScrollView>
-        </ScrollView>
+            </View>
+        </View>
             // {/* <ScrollView contentContainerStyle={{
             //     alignItems: "center",
             //     minWidth: "100%",
