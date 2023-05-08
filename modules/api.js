@@ -22,7 +22,6 @@ export async function createRequest(module, queryParams = "", useLocal = true){
     try {
         if(useLocal && await AsyncStorage.getItem(url) !== null && await AsyncStorage.getItem(url) !== ''){
             responseText = await AsyncStorage.getItem(url);
-            console.log(responseText)
         } else{
             throw new Error("Not using local");
         }

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Image, Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Button, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ActivityIndicator, Card} from 'react-native-paper';
 import * as api from '../modules/api.js';
 
@@ -79,10 +79,17 @@ export default function LaunchpadScreen({navigation, route}) {
                         <ScrollView horizontal={true}>
                             {launches[0] !== 0 && launches[0].id !== "notfound" && launches[0].id !== "loadingitems" && launches.map((card) => {
                                 return (
-                                    <Card key={card.id} style={{width: 200, marginRight: 20}}>
-                                        <Card.Title title={card.name}/>
-                                        <Card.Cover source={{uri: card.links.patch.small}}></Card.Cover>
-                                    </Card>
+                                    <View key={card.id} style={styles.card}>
+                                        <Text style={styles.text}>{card.name}</Text>
+                                        <View style={styles.overlay}></View>
+                                        <Image source={{uri: card.links.patch.small}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
+                                        {/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+									<Button title="Go back" onPress={() => navigation.goBack()} /> */}
+                                    </View>
+                                    // <Card key={card.id} style={{width: 200, marginRight: 20}}>
+                                    //     <Card.Title title={card.name}/>
+                                    //     <Card.Cover source={{uri: card.links.patch.small}}></Card.Cover>
+                                    // </Card>
                                 );
                             })
                             }
@@ -114,4 +121,28 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    card: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: 120,
+        width: 120,
+        backgroundColor: 'pink',
+        marginRight: 10,
+        borderRadius: 5,
+    },
+    text: {
+        zIndex: 10,
+        fontWeight: '800',
+        color: 'white',
+        fontSize: 18,
+    },
+    overlay: {
+        width: '100%',
+        height: '100%',
+        position: 'absolute',
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        borderRadius: 5,
+
+    }
 });
