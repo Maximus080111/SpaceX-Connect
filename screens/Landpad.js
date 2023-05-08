@@ -16,7 +16,6 @@ export default function Landpadscreen({navigation, route}) {
 
     useEffect(() => {
         (async () => {
-            console.log(landPadID)
             let result = await api.createRequest("landpads", landPadID)
             setResponse(result)
         })()

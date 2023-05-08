@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Image, Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Button, Image, Pressable, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {ActivityIndicator, Card} from 'react-native-paper';
 import * as api from '../modules/api.js';
 
@@ -120,12 +120,4 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff',
     },
-    overlay: {
-        width: '100%',
-        height: '100%',
-        position: 'absolute',
-        backgroundColor: 'rgba(0, 0, 0, 0.3)',
-        borderRadius: 5,
-		zIndex: -1,
-    }
 });

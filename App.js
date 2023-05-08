@@ -1,6 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import React, {useCallback, useState, useEffect} from 'react';
-import { Button, Alert, Linking, Pressable, ScrollView, StyleSheet, Text, View, SafeAreaView, Image } from 'react-native';
+import {
+	Button,
+	Alert,
+	Linking,
+	Pressable,
+	ScrollView,
+	StyleSheet,
+	Text,
+	View,
+	SafeAreaView,
+	Image,
+	TouchableOpacity
+} from 'react-native';
 import Details from './screens/Details.js'
 import Settings from './screens/Settings.js'
 import Card from './components/card.js'
@@ -12,6 +24,7 @@ import Rocket from './screens/Rocket.js';
 import * as api from './modules/api.js';
 
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import Launchpad from "./screens/Launchpad";
 
 const profile = {uri: 'https://reactjs.org/logo-og.png'};
 
@@ -43,10 +56,15 @@ function HomeScreenRender({ navigation }) {
     }, [])
 
 
-	let openRocket = async (rocket) => {
-		let rocketID = rocket._targetInst.return.key;
+	let openRocket = async (rocketID) => {
 		navigation.navigate("Rocket", {
 			"rocketID": rocketID,	
+		});
+	}
+
+	let openLaunchpad = async (launchPadID) => {
+		navigation.navigate("Launchpad", {
+			"launchPadID": launchPadID
 		});
 	}
 
@@ -73,13 +91,13 @@ function HomeScreenRender({ navigation }) {
 				<ScrollView horizontal={true}>
 					{cards[0] !== 0 && cards.map((card) => {
 						return (
-							<Pressable key={card.id} onPress={(card) => {openRocket(card)}}  style={styles.card}>
+							<TouchableOpacity key={card.id} onPress={(event) => {openRocket(card.id)}}  style={styles.card}>
 								<Text style={styles.text}>{card.name}</Text>
 								<View style={styles.overlay}></View>
 								<Image source={{uri: card.flickr_images[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
 									{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
 									<Button title="Go back" onPress={() => navigation.goBack()} /> */}
-							</Pressable>
+							</TouchableOpacity>
 							);
                 		})
                 	}
@@ -89,15 +107,15 @@ function HomeScreenRender({ navigation }) {
 			<View style={styles.scrollview}>
 				<Text style={styles.RocketsTitle}>All launchpads:</Text>
 				<ScrollView horizontal={true}>
-					{launchpads[0] !== 0 && launchpads.map((lanchpad) => {
+					{launchpads[0] !== 0 && launchpads.map((launchpad) => {
 						return (
-							<Pressable key={lanchpad.id} style={styles.card}>
-								<Text style={styles.text}>{lanchpad.name}</Text>
+							<TouchableOpacity key={launchpad.id} style={styles.card} onPress={(event) => {openLaunchpad(launchpad.id)}}>
+								<Text style={styles.text}>{launchpad.name}</Text>
 								<View style={styles.overlay}></View>
-								<Image source={{uri: lanchpad.images.large[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
+								<Image source={{uri: launchpad.images.large[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
 								{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
 									<Button title="Go back" onPress={() => navigation.goBack()} /> */}
-							</Pressable>
+							</TouchableOpacity>
 						);
 					})
 					}
@@ -129,6 +147,7 @@ function HomeScreen() {
 		<Stack.Navigator>
 			<Stack.Screen name="App" component={HomeScreenRender} options={{ headerShown: false }}/>
 			<Stack.Screen name="Rocket" component={Rocket} options={{ headerShown: false }}/>
+			<Stack.Screen name="Launchpad" component={Launchpad} options={{ headerShown: true }}/>
 		</Stack.Navigator>
 	);
 }
