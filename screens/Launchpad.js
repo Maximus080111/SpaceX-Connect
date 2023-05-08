@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Image, StyleSheet, Text, View} from 'react-native';
+import {Button, Image, Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {Card} from 'react-native-paper';
 import * as api from '../modules/api.js';
 
@@ -14,40 +14,80 @@ export default function LaunchpadScreen({navigation, route}) {
         }
     });
 
+    let [launches, setLaunches] = useState([]);
     useEffect(() => {
         (async () => {
             let result = await api.createRequest("launchpads", launchPadID)
             setResponse(result)
+            let launches = [];
+            for(let id in result.launches){
+                let launch =  await api.createRequest("launches", result.launches[id]);
+                launches.push(launch);
+            }
+            console.log(result.launches.length)
+            if(launches.length === 0){
+                launches.push({
+                    id: "notfound",
+                    name: "No launches have taken place on this location",
+                    links: {
+                        patch: {
+                            small: "https://google.com"
+                        }
+                    }
+                })
+            }
+            setLaunches(launches);
         })()
     },[]);
 
     return (
         <View style={styles.container}>
-            <Card style={{width: '80%'}}>
-                <Card.Title title={response.name}/>
-                <Card.Cover source={{uri: response.images.large[0]}} />
-                {/*<Card.Content>*/}
-                {/*    <Text>Volledige naam: {response.full_name}</Text>*/}
-                {/*</Card.Content>*/}
-                {/*<Image source={{uri: response.images.large[0]}} style={{width: '80%', height: '35%',borderRadius: 10}} resizeMode="cover"/>*/}
-                {/*<Text>{response.name}</Text>*/}
-                {/*<Text>{response.full_name}</Text>*/}
-                {/*<Text>{response.details}</Text>*/}
-                {/*<Button title="Go to Home" onPress={() => navigation.navigate('Home')} />*/}
-                {/*<Button title="Go back" onPress={() => navigation.goBack()} />*/}
-            </Card>
-            <Card style={{width: '80%', marginTop: 20}}>
-                <Card.Title title="Volledige naam"/>
-                <Card.Content>
-                    <Text>{response.full_name}</Text>
-                </Card.Content>
-            </Card>
-            <Card style={{width: '80%', marginTop: 20}}>
-                <Card.Title title="Extra informatie"/>
-                <Card.Content>
-                    <Text>{response.details}</Text>
-                </Card.Content>
-            </Card>
+            <ScrollView contentContainerStyle={{
+                alignItems: "center",
+                minWidth: "100%",
+                paddingTop: 50,
+                paddingBottom: 50
+            }}>
+                <Card style={{width: '80%'}}>
+                    <Card.Title title={response.name}/>
+                    <Card.Cover source={{uri: response.images.large[0]}} />
+                </Card>
+                <Card style={{width: '80%', marginTop: 20}}>
+                    <Card.Title title="Volledige naam"/>
+                    <Card.Content>
+                        <Text>{response.full_name}</Text>
+                    </Card.Content>
+                </Card>
+                <Card style={{width: '80%', marginTop: 20}}>
+                    <Card.Title title="Extra informatie"/>
+                    <Card.Content>
+                        <Text>{response.details}</Text>
+                    </Card.Content>
+                </Card>
+                <Card style={{width: '80%', marginTop: 20}}>
+                    <Card.Title title="Launches"/>
+                    <Card.Content>
+                        <ScrollView horizontal={true}>
+                            {launches[0] !== 0 && launches[0].id !== "notfound" && launches.map((card) => {
+                                return (
+                                    <Card key={card.id} style={{width: 200, marginRight: 20}}>
+                                        <Card.Title title={card.name}/>
+                                        <Card.Cover source={{uri: card.links.patch.small}}></Card.Cover>
+                                    </Card>
+                                );
+                            })
+                            }
+                            {launches.length === 1 && launches[0].id === "notfound" && launches.map((card) => {
+                                return (
+                                    <Text>{card.name}</Text>
+                                );
+                            })
+                            }
+                        </ScrollView>
+                    </Card.Content>
+                </Card>
+            </ScrollView>
+
         </View>
     );
 }

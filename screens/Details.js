@@ -6,6 +6,7 @@ import MapView, { Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 
 import * as api from '../modules/api.js'
 import Launchpad from "./Launchpad.js";
+import Landpad from "./Landpad.js";
 
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 
@@ -40,16 +41,29 @@ function MapViewRender({navigation}) {
 	useEffect(() => {
 		(async () => {
 			let response = await api.createRequest("launchpads");
-			setMarkers(response);
+			setLaunchPads(response);
+		})();
+	}, [])
+	useEffect(() => {
+		(async () => {
+			let response = await api.createRequest("landpads");
+			setLandPads(response);
 		})();
 	}, [])
 
-	let [markers, setMarkers] = useState([])
+	let [launchPads, setLaunchPads] = useState([])
+	let [landPads, setLandPads] = useState([])
 
 	let openLaunchpad = async (launchpad) => {
 		let launchPadID = launchpad._targetInst.return.key;
 		navigation.navigate("Launchpad", {
 			"launchPadID": launchPadID
+		});
+	}
+	let openLandpad = async (landpad) => {
+		let landPadID = landpad._targetInst.return.key;
+		navigation.navigate("Landpad", {
+			"landPadID": landPadID
 		});
 	}
 
@@ -67,7 +81,7 @@ function MapViewRender({navigation}) {
 				}}
 				ref={(gMap) => this.googleMap = gMap}
 			>
-				{markers[0] !== 0 && markers.map((marker) => {
+				{launchPads[0] !== 0 && launchPads.map((marker) => {
 					return (
 						<Marker
 							key={marker.id}
@@ -78,6 +92,21 @@ function MapViewRender({navigation}) {
 							title={marker.name}
 							image={require('../imgs/launchpad2.png')}
 							onPress={(marker) => {openLaunchpad(marker)}}
+						/>
+					);
+				})
+				}
+				{landPads[0] !== 0 && landPads.map((marker) => {
+					return (
+						<Marker
+							key={marker.id}
+							coordinate={{
+								latitude: marker.latitude,
+								longitude: marker.longitude,
+							}}
+							title={marker.name}
+							image={require('../imgs/landpad.png')}
+							onPress={(marker) => {openLandpad(marker)}}
 						/>
 					);
 				})
@@ -95,7 +124,8 @@ export default function DetailsScreen({route, navigation}) {
 	return (
 		<Stack.Navigator>
 			<Stack.Screen name="MapView" component={MapViewRender} options={{ headerShown: false }}/>
-			<Stack.Screen name="Launchpad" component={Launchpad} options={{ headerShown: false }}/>
+			<Stack.Screen name="Launchpad" component={Launchpad} options={{ headerShown: true }}/>
+			<Stack.Screen name="Landpad" component={Landpad} options={{ headerShown: true }}/>
 		</Stack.Navigator>
 	);
 }
