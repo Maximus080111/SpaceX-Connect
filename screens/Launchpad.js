@@ -50,6 +50,12 @@ export default function LaunchpadScreen({navigation, route}) {
         })()
     },[]);
 
+    let openLaunch = async (launchID) => {
+        navigation.navigate("Launchscreen", {
+            "launchID": launchID
+        });
+    }
+
     return (
         <View style={{height: '100%', flex: 1,}}>
             <View style={{height: '60%', justifyContent: 'center', alignItems: 'center'}}>
@@ -67,11 +73,12 @@ export default function LaunchpadScreen({navigation, route}) {
                     <ScrollView contentContainerStyle={{marginVertical: 20}} horizontal={true}>
                             {launches[0] !== 0 && launches[0].id !== "notfound" && launches[0].id !== "loadingitems" && launches.map((card) => {
                                 return (
-                                    <View key={card.id} style={{flex: 1, alignItems: 'center', justifyContent: 'center', height: 120, width: 120, borderRadius: 5, marginRight: 10, backgroundColor: 'darkblue'}}>
+                                    <TouchableOpacity
+                                        key={card.id} style={{flex: 1,alignItems: 'center',justifyContent: 'center',height: 120,width: 120,borderRadius: 5,marginRight: 10,backgroundColor: 'darkblue'}} onPress={(event) => {openLaunch(card.id)}}>
                                         <Text style={{zIndex: 2, fontWeight: '800', color: 'white', fontSize: 14, textAlign: 'center'}}>{card.name}</Text>
                                         <View style={{width: '100%', height: '100%', position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.3)', zIndex: -1, borderRadius: 5}}></View>
                                         <Image style={{position: 'absolute', height: '100%', width: '100%', borderRadius: 5, zIndex: -2}} source={{uri: card.links.patch.small}} />
-                                    </View>
+                                    </TouchableOpacity>
                                 );
                             })
                             }

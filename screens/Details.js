@@ -7,6 +7,7 @@ import MapView, { Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import * as api from '../modules/api.js'
 import Launchpad from "./Launchpad.js";
 import Landpad from "./Landpad.js";
+import LaunchScreen from './Launch.js';
 
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 
@@ -126,6 +127,7 @@ export default function DetailsScreen({route, navigation}) {
 			<Stack.Screen name="MapView" component={MapViewRender} options={{ headerShown: false }}/>
 			<Stack.Screen name="Launchpad" component={Launchpad} options={{ headerShown: false}}/>
 			<Stack.Screen name="Landpad" component={Landpad} options={{ headerShown: false }}/>
+			<Stack.Screen name="Launchscreen" component={LaunchScreen} options={{ headerShown: false }}/>
 		</Stack.Navigator>
 	);
 }

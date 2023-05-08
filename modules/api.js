@@ -32,3 +32,7 @@ export async function createRequest(module, queryParams = "", useLocal = true){
     }
     return JSON.parse(responseText);
 }
+
+export async function clearCache(){
+    await AsyncStorage.clear();
+}
