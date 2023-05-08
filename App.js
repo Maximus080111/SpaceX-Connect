@@ -21,13 +21,15 @@ function HomeScreenRender({ navigation }) {
 
 	let [nextlaunch, setNextLaunch] = useState({});
 
-	let [launchpads, setLaunchpads] = useState({
-		images: {
-            large: [
-                "https://google.com"
-            ]
-        }
-	});
+	let [launchpads, setLaunchpads] = useState([
+		{
+			images: {
+				large: [
+					"https://google.com"
+				]
+			}
+		}
+	]);
 
 	useEffect(() => {
         (async () => {
@@ -93,12 +95,12 @@ function HomeScreenRender({ navigation }) {
 								<Text style={styles.text}>{lanchpad.name}</Text>
 								<View style={styles.overlay}></View>
 								<Image source={{uri: lanchpad.images.large[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
-									{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+								{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
 									<Button title="Go back" onPress={() => navigation.goBack()} /> */}
 							</Pressable>
-							);
-                		})
-                	}
+						);
+					})
+					}
 				</ScrollView>
 			</View>
 		</SafeAreaView>

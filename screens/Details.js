@@ -75,9 +75,9 @@ function MapViewRender({navigation}) {
 				//specify our coordinates.
 				region={{
 					latitude: 33.919434,
-					longitude: -118.353996,
-					latitudeDelta: 0.0922,
-					longitudeDelta: 0.0421,
+					longitude: -100.353996,
+					latitudeDelta: 50,
+					longitudeDelta: 50,
 				}}
 				ref={(gMap) => this.googleMap = gMap}
 			>
