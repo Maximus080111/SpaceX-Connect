@@ -1,3 +1,5 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const apiLib = {
     capsules: "https://api.spacexdata.com/v4/capsules/",
     company_info: "https://api.spacexdata.com/v4/company/",
@@ -14,9 +16,20 @@ const apiLib = {
     starlink: "https://api.spacexdata.com/v4/starlink/"
 }
 
-export async function createRequest(module, queryParams = ""){
+export async function createRequest(module, queryParams = "", useLocal = true){
     let url = apiLib[module.toLowerCase()] + queryParams;
-    let request = await fetch(url);
-    let responseText = await request.text();
+    let responseText = "[]";
+    try {
+        if(useLocal && await AsyncStorage.getItem(url) !== null && await AsyncStorage.getItem(url) !== ''){
+            responseText = await AsyncStorage.getItem(url);
+            console.log(responseText)
+        } else{
+            throw new Error("Not using local");
+        }
+    } catch (e){
+        let request = await fetch(url);
+        responseText = await request.text();
+        await AsyncStorage.setItem(url, responseText);
+    }
     return JSON.parse(responseText);
 }
