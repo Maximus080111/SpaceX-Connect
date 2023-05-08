@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Image, Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
-import {Card} from 'react-native-paper';
+import {ActivityIndicator, Card} from 'react-native-paper';
 import * as api from '../modules/api.js';
 
 export default function LaunchpadScreen({navigation, route}) {
@@ -14,7 +14,17 @@ export default function LaunchpadScreen({navigation, route}) {
         }
     });
 
-    let [launches, setLaunches] = useState([]);
+    let [launches, setLaunches] = useState([
+        {
+            id: "loadingitems",
+            name: "Launches worden geladen",
+            links: {
+                patch: {
+                    small: "https://google.com"
+                }
+            }
+        }
+    ]);
     useEffect(() => {
         (async () => {
             let result = await api.createRequest("launchpads", launchPadID)
@@ -24,7 +34,6 @@ export default function LaunchpadScreen({navigation, route}) {
                 let launch =  await api.createRequest("launches", result.launches[id]);
                 launches.push(launch);
             }
-            console.log(result.launches.length)
             if(launches.length === 0){
                 launches.push({
                     id: "notfound",
@@ -68,7 +77,7 @@ export default function LaunchpadScreen({navigation, route}) {
                     <Card.Title title="Launches"/>
                     <Card.Content>
                         <ScrollView horizontal={true}>
-                            {launches[0] !== 0 && launches[0].id !== "notfound" && launches.map((card) => {
+                            {launches[0] !== 0 && launches[0].id !== "notfound" && launches[0].id !== "loadingitems" && launches.map((card) => {
                                 return (
                                     <Card key={card.id} style={{width: 200, marginRight: 20}}>
                                         <Card.Title title={card.name}/>
@@ -79,7 +88,13 @@ export default function LaunchpadScreen({navigation, route}) {
                             }
                             {launches.length === 1 && launches[0].id === "notfound" && launches.map((card) => {
                                 return (
-                                    <Text>{card.name}</Text>
+                                    <Text key={card.id}>{card.name}</Text>
+                                );
+                            })
+                            }
+                            {launches.length === 1 && launches[0].id === "loadingitems" && launches.map((card) => {
+                                return (
+                                    <ActivityIndicator key={card.id} size="small" color="#0000ff" />
                                 );
                             })
                             }
