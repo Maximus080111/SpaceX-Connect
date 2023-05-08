@@ -25,6 +25,7 @@ import * as api from './modules/api.js';
 
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Launchpad from "./screens/Launchpad";
+import Landpad from "./screens/Landpad";
 
 const profile = {uri: 'https://reactjs.org/logo-og.png'};
 
@@ -44,14 +45,30 @@ function HomeScreenRender({ navigation }) {
 		}
 	]);
 
+	let [landpads, setLandpads] = useState([
+		{
+			images: {
+				large: [
+					"https://google.com"
+				]
+			}
+		}
+	]);
+
+	let [launches, setLaunches] = useState([]);
+
 	useEffect(() => {
         (async () => {
-            let response = await api.createRequest("Rockets");
+            let rockets = await api.createRequest("Rockets");
 			let next = await api.createRequest("launches", "next");
-			let launchpad = await api.createRequest("Launchpads")
-            setCards(response);
+			let launchpad = await api.createRequest("Launchpads");
+			let landingpad = await api.createRequest("Landpads");
+            setCards(rockets);
 			setNextLaunch(next);
 			setLaunchpads(launchpad);
+			setLandpads(landingpad);
+			let launches = await api.createRequest("Launches");
+			setLaunches(launches);
         })();
     }, [])
 
@@ -65,6 +82,16 @@ function HomeScreenRender({ navigation }) {
 	let openLaunchpad = async (launchPadID) => {
 		navigation.navigate("Launchpad", {
 			"launchPadID": launchPadID
+		});
+	}
+	let openLandpad = async (landPadID) => {
+		navigation.navigate("Landpad", {
+			"landPadID": landPadID
+		});
+	}
+	let openLaunch = async (launchID) => {
+		navigation.navigate("Launch", {
+			"launchID": launchID
 		});
 	}
 
@@ -121,6 +148,42 @@ function HomeScreenRender({ navigation }) {
 					}
 				</ScrollView>
 			</View>
+			
+			<View style={styles.scrollview}>
+				<Text style={styles.RocketsTitle}>All Landingpads:</Text>
+				<ScrollView horizontal={true}>
+					{landpads[0] !== 0 && landpads.map((landpads) => {
+						return (
+							<TouchableOpacity key={landpads.id} style={styles.card} onPress={(event) => {openLandpad(landpads.id)}}>
+								<Text style={styles.text}>{landpads.name}</Text>
+								<View style={styles.overlay}></View>
+								<Image source={{uri: landpads.images.large[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
+								{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+									<Button title="Go back" onPress={() => navigation.goBack()} /> */}
+							</TouchableOpacity>
+						);
+					})
+					}
+				</ScrollView>
+			</View>
+
+			<View style={styles.scrollview}>
+				<Text style={styles.RocketsTitle}>All launches:</Text>
+				<ScrollView horizontal={true}>
+					{launches[0] !== 0 && launches.map((launches) => {
+						return (
+							<TouchableOpacity key={launches.id} style={styles.card} onPress={(event) => {openLandpad(launches.id)}}>
+								<Text style={styles.text}>{launches.name}</Text>
+								<View style={styles.overlay}></View>
+								<Image source={{uri: launches.links.patch.small}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
+								{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+									<Button title="Go back" onPress={() => navigation.goBack()} /> */}
+							</TouchableOpacity>
+						);
+					})
+					}
+				</ScrollView>
+			</View>
 		</SafeAreaView>
 	);
 }
@@ -148,6 +211,8 @@ function HomeScreen() {
 			<Stack.Screen name="App" component={HomeScreenRender} options={{ headerShown: false }}/>
 			<Stack.Screen name="Rocket" component={Rocket} options={{ headerShown: false }}/>
 			<Stack.Screen name="Launchpad" component={Launchpad} options={{ headerShown: true }}/>
+			<Stack.Screen name="Landpad" component={Landpad} options={{ headerShown: true }}/>
+			<Stack.Screen name="Launches" component={Launchpad} options={{ headerShown: true }}/>
 		</Stack.Navigator>
 	);
 }
