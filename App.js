@@ -97,60 +97,60 @@ function HomeScreenRender({ navigation }) {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			{/* this part is for the profile pictures and welcome text */}
-			<View style={styles.profileBox}>
-				<Image style={styles.profile} source={profile}></Image>
-				<Text style={styles.welcome}>Welcome User</Text>
-			</View>
-
-			{/* This part is for the upcoming launch  */}
-			<View style={styles.upcomingLaunch}>
-				{/* <Image style={styles.launch_img}></Image> */}
-				<Text style={{color: 'white', fontWeight: '900', fontSize: 22, marginBottom: 10}}>Latest Launch</Text>
-				<View style={styles.view_launch}>
-					<Text style={styles.launch_text_title}>{nextlaunch.name}</Text>
-					<Text style={styles.launch_text_date}>{nextlaunch.date_local}</Text>
-					<OpenURLButton>Watch Back</OpenURLButton>
+			<ScrollView>
+				<View style={styles.profileBox}>
+					<Image style={styles.profile} source={profile}></Image>
+					<Text style={styles.welcome}>Welcome User</Text>
 				</View>
-			</View>
-			<View style={styles.scrollview}>
-				<Text style={styles.RocketsTitle}>All rockets:</Text>
-				<ScrollView horizontal={true}>
-					{cards[0] !== 0 && cards.map((card) => {
-						return (
-							<TouchableOpacity key={card.id} onPress={(event) => {openRocket(card.id)}}  style={styles.card}>
-								<Text style={styles.text}>{card.name}</Text>
-								<View style={styles.overlay}></View>
-								<Image source={{uri: card.flickr_images[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
-									{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-									<Button title="Go back" onPress={() => navigation.goBack()} /> */}
-							</TouchableOpacity>
-							);
-                		})
-                	}
-				</ScrollView>
-			</View>
 
-			<View style={styles.scrollview}>
-				<Text style={styles.RocketsTitle}>All launchpads:</Text>
-				<ScrollView horizontal={true}>
-					{launchpads[0] !== 0 && launchpads.map((launchpad) => {
-						return (
-							<TouchableOpacity key={launchpad.id} style={styles.card} onPress={(event) => {openLaunchpad(launchpad.id)}}>
-								<Text style={styles.text}>{launchpad.name}</Text>
-								<View style={styles.overlay}></View>
-								<Image source={{uri: launchpad.images.large[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
-								{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-									<Button title="Go back" onPress={() => navigation.goBack()} /> */}
-							</TouchableOpacity>
-						);
-					})
-					}
-				</ScrollView>
-			</View>
-			
-			<View style={styles.scrollview}>
-				<Text style={styles.RocketsTitle}>All Landingpads:</Text>
+				{/* This part is for the upcoming launch  */}
+				<View style={styles.upcomingLaunch}>
+					{/* <Image style={styles.launch_img}></Image> */}
+					<Text style={{color: 'white', fontWeight: '900', fontSize: 22, marginBottom: 10}}>Latest Launch</Text>
+					<View style={styles.view_launch}>
+						<Text style={styles.launch_text_title}>{nextlaunch.name}</Text>
+						<Text style={styles.launch_text_date}>{nextlaunch.date_local}</Text>
+						<OpenURLButton>Watch Back</OpenURLButton>
+					</View>
+				</View>
+				<View style={styles.scrollview}>
+					<Text style={styles.RocketsTitle}>All rockets:</Text>
+					<ScrollView horizontal={true}>
+						{cards[0] !== 0 && cards.map((card) => {
+							return (
+								<TouchableOpacity key={card.id} onPress={(event) => {openRocket(card.id)}}  style={styles.card}>
+									<Text style={styles.text}>{card.name}</Text>
+									<View style={styles.overlay}></View>
+									<Image source={{uri: card.flickr_images[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
+										{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+										<Button title="Go back" onPress={() => navigation.goBack()} /> */}
+								</TouchableOpacity>
+								);
+							})
+						}
+					</ScrollView>
+				</View>
+
+				<View style={styles.scrollview}>
+					<Text style={styles.RocketsTitle}>All launchpads:</Text>
+					<ScrollView horizontal={true}>
+						{launchpads[0] !== 0 && launchpads.map((launchpad) => {
+							return (
+								<TouchableOpacity key={launchpad.id} style={styles.card} onPress={(event) => {openLaunchpad(launchpad.id)}}>
+									<Text style={styles.text}>{launchpad.name}</Text>
+									<View style={styles.overlay}></View>
+									<Image source={{uri: launchpad.images.large[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
+									{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+										<Button title="Go back" onPress={() => navigation.goBack()} /> */}
+								</TouchableOpacity>
+							);
+						})
+						}
+					</ScrollView>
+				</View>
+				
+				<View style={styles.scrollview}>
+					<Text style={styles.RocketsTitle}>All Landingpads:</Text>
 				<ScrollView horizontal={true}>
 					{landpads[0] !== 0 && landpads.map((landpads) => {
 						return (
@@ -184,6 +184,8 @@ function HomeScreenRender({ navigation }) {
 					}
 				</ScrollView>
 			</View>
+			</ScrollView>
+			{/* this part is for the profile pictures and welcome text */}
 		</SafeAreaView>
 	);
 }
