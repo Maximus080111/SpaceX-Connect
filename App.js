@@ -113,11 +113,11 @@ function HomeScreenRender({ navigation }) {
 				{/* This part is for the upcoming launch  */}
 				<View style={styles.upcomingLaunch}>
 					{/* <Image style={styles.launch_img}></Image> */}
-					<Text style={{color: 'white', fontWeight: '900', fontSize: 22, marginBottom: 10}}>Latest Launch</Text>
+					<Text style={{color: 'white', fontWeight: '900', fontSize: 22}}>Latest Launch</Text>
 					<View style={styles.view_launch}>
 						<Text style={styles.launch_text_title}>{nextlaunch.name}</Text>
-						<Text style={styles.launch_text_date}>{nextlaunch.date_local}</Text>
-						<OpenURLButton>Watch Back</OpenURLButton>
+						{/* <Text style={styles.launch_text_date}>{nextlaunch.date_local}</Text> */}
+						<Button onPress={() => {openUrl(nextlaunch.links.webcast)}} title='watch back' />
 					</View>
 				</View>
 				<View style={styles.scrollview}>
@@ -197,17 +197,14 @@ function HomeScreenRender({ navigation }) {
 	);
 }
 
-const OpenURLButton = ({url, children}) => {
-	const handlePress = useCallback(async () => {
-		const supported = await Linking.canOpenURL(url);
-		if(supported) {
-			await Linking.openURL(url);
-		} else {
-			Alert.alert(`Don't know how to open this URL: ${url}`);
-		}
-	}, [url]);
-	return <Pressable style={styles.watchBack} onPress={handlePress} ><Text style={styles.watchback_text}>{children}</Text></Pressable>;
-}
+async function openUrl(url) {
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+        await Linking.openURL(url);
+    } else {
+        Alert.alert(`Don't know how to open this URL: ${url}`);
+    }
+};
 
 
 const Tab = createBottomTabNavigator();
@@ -309,7 +306,8 @@ const styles = StyleSheet.create({
 	},
 	launch_text_title: {
 		color: 'white',
-		fontWeight: 900
+		fontWeight: 900,
+		marginVertical: 10
 	},
 	launch_text_date: {
 		color: 'white',
