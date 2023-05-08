@@ -124,7 +124,7 @@ export default function DetailsScreen({route, navigation}) {
 	return (
 		<Stack.Navigator>
 			<Stack.Screen name="MapView" component={MapViewRender} options={{ headerShown: false }}/>
-			<Stack.Screen name="Launchpad" component={Launchpad} options={{ headerShown: true }}/>
+			<Stack.Screen name="Launchpad" component={Launchpad} options={{ headerShown: true,}}/>
 			<Stack.Screen name="Landpad" component={Landpad} options={{ headerShown: true }}/>
 		</Stack.Navigator>
 	);

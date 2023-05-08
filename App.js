@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
 		alignItems: 'flex-start',
 		justifyContent: 'space-evenly',
 		paddingHorizontal: 20,
+		paddingVertical: 30,
 	},
 	profileBox: {
 		flexDirection: 'row',
