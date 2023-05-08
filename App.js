@@ -11,16 +11,22 @@ import Ionicons from '@expo/vector-icons/Ionicons.js';
 import Rocket from './screens/Rocket.js';
 import * as api from './modules/api.js';
 
+import {createNativeStackNavigator} from "@react-navigation/native-stack";
+
 const profile = {uri: 'https://reactjs.org/logo-og.png'};
 
-function HomeScreen({ navigation }) {
+function HomeScreenRender({ navigation }) {
 
 	let [cards, setCards] = useState([]);
+
+	let [nextlaunch, setNextLaunch] = useState({});
 
 	useEffect(() => {
         (async () => {
             let response = await api.createRequest("Rockets");
+			let next = await api.createRequest("launches", "next");
             setCards(response);
+			setNextLaunch(next);
         })();
     }, [])
 
@@ -28,7 +34,7 @@ function HomeScreen({ navigation }) {
 	let openRocket = async (rocket) => {
 		let rocketID = rocket._targetInst.return.key;
 		navigation.navigate("Rocket", {
-			"rocketID": rocketID
+			"rocketID": rocketID,	
 		});
 	}
 
@@ -42,11 +48,12 @@ function HomeScreen({ navigation }) {
 
 			{/* This part is for the upcoming launch  */}
 			<View style={styles.upcomingLaunch}>
-				<Image style={styles.launch_img}></Image>
+				{/* <Image style={styles.launch_img}></Image> */}
+				<Text style={{color: 'white', fontWeight: '900', fontSize: 22, marginBottom: 10}}>Latest Launch</Text>
 				<View style={styles.view_launch}>
-					<Text style={styles.launch_text_title}>FALCON 9 HEAVY</Text>
-					<Text style={styles.launch_text_date}>2022-10-05</Text>
-					<OpenURLButton url={supportedURL}>Watch Back</OpenURLButton>
+					<Text style={styles.launch_text_title}>{nextlaunch.name}</Text>
+					<Text style={styles.launch_text_date}>{nextlaunch.date_local}</Text>
+					<OpenURLButton>Watch Back</OpenURLButton>
 				</View>
 			</View>
 			<View style={styles.scrollview}>
@@ -55,12 +62,12 @@ function HomeScreen({ navigation }) {
 					{cards[0] !== 0 && cards.map((card) => {
 						return (
 							<Pressable key={card.id} onPress={(card) => {openRocket(card)}}  style={styles.card}>
-							<Text style={styles.text}>{card.name}</Text>
+								<Text style={styles.text}>{card.name}</Text>
 								<View style={styles.overlay}></View>
 								<Image source={{uri: card.flickr_images[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
 									{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
 									<Button title="Go back" onPress={() => navigation.goBack()} /> */}
-								</Pressable>
+							</Pressable>
 							);
                 		})
                 	}
@@ -80,9 +87,6 @@ function HomeScreen({ navigation }) {
 	);
 }
 
-const supportedURL = 'https://youtu.be/RfiQYRn7fBg';
-const unsupportedURL = 'slack://open?team=123456';
-
 const OpenURLButton = ({url, children}) => {
 	const handlePress = useCallback(async () => {
 		const supported = await Linking.canOpenURL(url);
@@ -95,9 +99,24 @@ const OpenURLButton = ({url, children}) => {
 	return <Pressable style={styles.watchBack} onPress={handlePress} ><Text style={styles.watchback_text}>{children}</Text></Pressable>;
 }
 
+
 const Tab = createBottomTabNavigator();
 
-export default function App() {
+function HomeScreen() {
+	const Stack = createNativeStackNavigator();
+
+	return (
+		<Stack.Navigator>
+			<Stack.Screen name="App" component={HomeScreenRender} options={{ headerShown: false }}/>
+			<Stack.Screen name="Rocket" component={Rocket} options={{ headerShown: false }}/>
+		</Stack.Navigator>
+	);
+}
+
+export default function App(navigation, route) {
+
+	const Stack = createNativeStackNavigator();
+
 	return (
 		<NavigationContainer>
 			<Tab.Navigator screenOptions={({ route }) => ({
@@ -158,12 +177,13 @@ const styles = StyleSheet.create({
 		marginLeft: 30,
 	},
 	upcomingLaunch: {
-		flexDirection: 'row',
+		flexDirection: 'column',
 		alignItems: 'center',
+		justifyContent: 'center',
 		paddingHorizontal: 10,
 		width: '100%',
 		backgroundColor: '#000',
-		height: 120,
+		height: 150,
 		borderRadius: 10,
 	},
 	launch_img: {
@@ -182,6 +202,7 @@ const styles = StyleSheet.create({
 	},
 	view_launch: {
 		paddingLeft: 10,
+		alignItems: 'center',
 	},
 	watchBack: {
 		marginTop: 5,
