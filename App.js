@@ -232,12 +232,12 @@ export default function App(navigation, route) {
 
 	return (
 		<NavigationContainer>
-			<Tab.Navigator initialRouteName='Home' screenOptions={({ route }) => ({
+			<Tab.Navigator initialRouteName='Map' screenOptions={({ route }) => ({
 				tabBarIcon: ({ focused, color, size }) => {
 					let iconName;
 
-					if (route.name === 'Home') {
-						iconName = focused ? 'rocket' : 'rocket-outline';
+					if (route.name === 'Info') {
+						iconName = focused ? 'list' : 'list-outline';
 					} else if (route.name === 'Map') {
 						iconName = focused ? 'map' : 'map-outline';
 					} else if (route.name === 'Settings') {
@@ -260,8 +260,8 @@ export default function App(navigation, route) {
 					paddingVertical: 5,
 				}
 			})}>
-				<Tab.Screen name="Map" component={Details}  initialParams={{ itemId: 42 }}/>
-				<Tab.Screen name="Home" component={HomeScreen} />
+				<Tab.Screen name="Info" component={HomeScreen} />
+				<Tab.Screen name="Map" component={Details} />
 				<Tab.Screen name="Settings" component={Settings} />
 			</Tab.Navigator>
 		</NavigationContainer>
