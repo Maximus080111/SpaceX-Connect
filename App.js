@@ -21,12 +21,22 @@ function HomeScreenRender({ navigation }) {
 
 	let [nextlaunch, setNextLaunch] = useState({});
 
+	let [launchpads, setLaunchpads] = useState({
+		images: {
+            large: [
+                "https://google.com"
+            ]
+        }
+	});
+
 	useEffect(() => {
         (async () => {
             let response = await api.createRequest("Rockets");
 			let next = await api.createRequest("launches", "next");
+			let launchpad = await api.createRequest("Launchpads")
             setCards(response);
 			setNextLaunch(next);
+			setLaunchpads(launchpad);
         })();
     }, [])
 
@@ -74,15 +84,23 @@ function HomeScreenRender({ navigation }) {
 				</ScrollView>
 			</View>
 
-			<Text>Open up App.js to start working on your app!</Text>
-			<Button
-				title='Go to Details'
-				onPress={() => navigation.navigate('Details', {
-					itemId: 86,
-					otherParam: 'anything you want here!!!!!',
-				})}
-			/>
-			<StatusBar style="auto" />
+			<View style={styles.scrollview}>
+				<Text style={styles.RocketsTitle}>All launchpads:</Text>
+				<ScrollView horizontal={true}>
+					{launchpads[0] !== 0 && launchpads.map((lanchpad) => {
+						return (
+							<Pressable key={lanchpad.id} style={styles.card}>
+								<Text style={styles.text}>{lanchpad.name}</Text>
+								<View style={styles.overlay}></View>
+								<Image source={{uri: lanchpad.images.large[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
+									{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
+									<Button title="Go back" onPress={() => navigation.goBack()} /> */}
+							</Pressable>
+							);
+                		})
+                	}
+				</ScrollView>
+			</View>
 		</SafeAreaView>
 	);
 }
