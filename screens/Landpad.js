@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {Button, Image, Pressable, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Button, Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {Card} from 'react-native-paper';
 import * as api from '../modules/api.js';
 
-export default function LaunchpadScreen({navigation, route}) {
-    const {launchPadID, otherParam} = route.params;
+export default function Landpadscreen({navigation, route}) {
+    const {landPadID, otherParam} = route.params;
 
     let [response, setResponse] = useState({
         images: {
@@ -14,18 +14,11 @@ export default function LaunchpadScreen({navigation, route}) {
         }
     });
 
-    let [launches, setLaunches] = useState([]);
-
     useEffect(() => {
         (async () => {
-            let result = await api.createRequest("launchpads", launchPadID)
+            console.log(landPadID)
+            let result = await api.createRequest("landpads", landPadID)
             setResponse(result)
-            let launches = [];
-            for(let id in result.launches){
-                let launch =  await api.createRequest("launches", result.launches[id]);
-                launches.push(launch);
-            }
-            setLaunches(launches);
         })()
     },[]);
 
@@ -53,24 +46,7 @@ export default function LaunchpadScreen({navigation, route}) {
                         <Text>{response.details}</Text>
                     </Card.Content>
                 </Card>
-                <Card style={{width: '80%', marginTop: 20}}>
-                    <Card.Title title="Launches"/>
-                    <Card.Content>
-                        <ScrollView horizontal={true}>
-                            {launches[0] !== 0 && launches.map((card) => {
-                                return (
-                                    <Card key={card.id} style={{width: 200, marginRight: 20}}>
-                                        <Card.Title title={card.name}/>
-                                        <Card.Cover source={{uri: card.links.patch.small}}></Card.Cover>
-                                    </Card>
-                                );
-                            })
-                            }
-                        </ScrollView>
-                    </Card.Content>
-                </Card>
             </ScrollView>
-
         </View>
     );
 }
