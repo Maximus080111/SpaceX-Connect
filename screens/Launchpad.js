@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Image, StyleSheet, Text, View} from 'react-native';
+import {Card} from 'react-native-paper';
 import * as api from '../modules/api.js';
 
 export default function LaunchpadScreen({navigation, route}) {
@@ -22,10 +23,31 @@ export default function LaunchpadScreen({navigation, route}) {
 
     return (
         <View style={styles.container}>
-            <Image source={{uri: response.images.large[0]}} style={{width: '80%', height: '40%', borderRadius: 10}} resizeMode="contain"/>
-            <Text>SettingsScreen2</Text>
-            <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
-            <Button title="Go back" onPress={() => navigation.goBack()} />
+            <Card style={{width: '80%'}}>
+                <Card.Title title={response.name}/>
+                <Card.Cover source={{uri: response.images.large[0]}} />
+                {/*<Card.Content>*/}
+                {/*    <Text>Volledige naam: {response.full_name}</Text>*/}
+                {/*</Card.Content>*/}
+                {/*<Image source={{uri: response.images.large[0]}} style={{width: '80%', height: '35%',borderRadius: 10}} resizeMode="cover"/>*/}
+                {/*<Text>{response.name}</Text>*/}
+                {/*<Text>{response.full_name}</Text>*/}
+                {/*<Text>{response.details}</Text>*/}
+                {/*<Button title="Go to Home" onPress={() => navigation.navigate('Home')} />*/}
+                {/*<Button title="Go back" onPress={() => navigation.goBack()} />*/}
+            </Card>
+            <Card style={{width: '80%', marginTop: 20}}>
+                <Card.Title title="Volledige naam"/>
+                <Card.Content>
+                    <Text>{response.full_name}</Text>
+                </Card.Content>
+            </Card>
+            <Card style={{width: '80%', marginTop: 20}}>
+                <Card.Title title="Extra informatie"/>
+                <Card.Content>
+                    <Text>{response.details}</Text>
+                </Card.Content>
+            </Card>
         </View>
     );
 }
