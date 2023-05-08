@@ -53,12 +53,40 @@ export default function LaunchpadScreen({navigation, route}) {
         <ScrollView contentContainerStyle={{height: '100%'}}>
                 <View style={{height: '40%', justifyContent: 'center', alignItems: 'center'}}>
                     <Text style={{position: 'absolute', fontWeight: 'bold', color: 'white', fontSize: 42}}>{response.name}</Text>
-                    <View style={styles.overlay}></View>
+                    <View style={{width: '100%', height: '100%', position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.3)', zIndex: -1}}></View>
                     <Image style={{width: '100%', height: '100%', zIndex: -2,}} source={{uri: response.images.large[0]}} resizeMode='cover' />
                 </View>
                 <ScrollView style={{paddingHorizontal: 20}}>
                     <Text style={{textAlign: 'center', marginVertical: 20, fontWeight: 'bold', fontSize: 18}}>{response.full_name}</Text>
                     <Text>{response.details}</Text>
+                    <ScrollView contentContainerStyle={{marginVertical: 20}} horizontal={true}>
+                            {launches[0] !== 0 && launches[0].id !== "notfound" && launches[0].id !== "loadingitems" && launches.map((card) => {
+                                return (
+                                    <View key={card.id} style={{flex: 1, alignItems: 'center', justifyContent: 'center', height: 120, width: 120, borderRadius: 5, marginRight: 10, backgroundColor: 'darkblue'}}>
+                                        <Text style={{zIndex: 2, fontWeight: '800', color: 'white', fontSize: 14, textAlign: 'center'}}>{card.name}</Text>
+                                        <View style={{width: '100%', height: '100%', position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.3)', zIndex: -1, borderRadius: 5}}></View>
+                                        <Image style={{position: 'absolute', height: '100%', width: '100%', borderRadius: 5, zIndex: -2}} source={{uri: card.links.patch.small}} />
+                                    </View>
+                                    // <Card key={card.id} style={{width: 200, marginRight: 20}}>
+                                    //     <Card.Title title={card.name}/>
+                                    //     <Card.Cover source={{uri: card.links.patch.small}}></Card.Cover>
+                                    // </Card>
+                                );
+                            })
+                            }
+                            {launches.length === 1 && launches[0].id === "notfound" && launches.map((card) => {
+                                return (
+                                    <Text key={card.id}>{card.name}</Text>
+                                );
+                            })
+                            }
+                            {launches.length === 1 && launches[0].id === "loadingitems" && launches.map((card) => {
+                                return (
+                                    <ActivityIndicator key={card.id} size="small" color="#0000ff" />
+                                );
+                            })
+                            }
+                        </ScrollView>
                 </ScrollView>
         </ScrollView>
             // {/* <ScrollView contentContainerStyle={{
