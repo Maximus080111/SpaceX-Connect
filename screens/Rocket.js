@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Button, StyleSheet, Text, View, TouchableOpacity, Image, ScrollView } from 'react-native';
+import { DataTable } from 'react-native-paper';
 import * as api from '../modules/api.js';
 import arrow from '../imgs/Back.png';
 
@@ -10,7 +11,10 @@ export default function Rocket({navigation, route}) {
 	let [response, setResponse] = useState({
 		flickr_images: [
 			"https://google.com"
-		]
+		],
+		height: {},
+		diameter: {},
+		mass: {},
 	});
 
 	useEffect(() => {
@@ -34,6 +38,20 @@ export default function Rocket({navigation, route}) {
 			<Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 18, marginBottom: 15}}>{response.name}</Text>
 			<ScrollView>
 				<Text>{response.description}</Text>
+				<DataTable style={styles.data}>
+					<DataTable.Row>
+						<DataTable.Cell textStyle={{fontWeight: 'bold'}}>Height:</DataTable.Cell>
+						<DataTable.Cell>{response.height.meters} meter</DataTable.Cell>
+					</DataTable.Row>
+					<DataTable.Row>
+						<DataTable.Cell textStyle={{fontWeight: 'bold'}}>Diameter:</DataTable.Cell>
+						<DataTable.Cell>{response.diameter.meters} meter</DataTable.Cell>
+					</DataTable.Row>
+					<DataTable.Row>
+						<DataTable.Cell textStyle={{fontWeight: 'bold'}}>Mass:</DataTable.Cell>
+						<DataTable.Cell>{response.mass.kg} kg</DataTable.Cell>
+					</DataTable.Row>
+    			</DataTable>
 			</ScrollView>
 		</View>
 		</View>
@@ -47,4 +65,10 @@ const styles = StyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 	},
+	data: {
+		padding: 15,
+	  },
+	  tableHeader: {
+		backgroundColor: '#DCDCDC',
+	  },
 });
