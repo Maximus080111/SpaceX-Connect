@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Button, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity, Linking, Alert} from 'react-native';
-import {Card} from 'react-native-paper';
+import {DataTable} from 'react-native-paper';
 import * as api from '../modules/api.js';
 import arrow from '../imgs/Back.png';
 import { Stack, FAB } from "@react-native-material/core";
@@ -38,39 +38,21 @@ export default function LaunchScreen({navigation, route}) {
                 <Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 18, marginBottom: 15}}>{response.name}</Text>
                 <ScrollView>
                     <Text>{response.details}</Text>
-                    <Text>Date:</Text>
-                    <Text>{response.date_local}</Text>
+                    <DataTable style={styles.data}>
+                        <DataTable.Row>
+                            <DataTable.Cell textStyle={{fontWeight: 'bold', width: '60%'}}>Success:</DataTable.Cell>
+                            <DataTable.Cell>{String(response.success)}</DataTable.Cell>
+                        </DataTable.Row>
+                        <DataTable.Row>
+                            <DataTable.Cell textStyle={{fontWeight: 'bold'}}>Flight number:</DataTable.Cell>
+                            <DataTable.Cell>{response.flight_number}</DataTable.Cell>
+                        </DataTable.Row>
+    			    </DataTable>
+                    <TouchableOpacity style={{backgroundColor: 'black', width: '60%', paddingVertical: 15, borderRadius: 10, alignSelf: 'center'}} onPress={()=>{openUrl(response.links.webcast)}}>
+                        <Text style={{color: 'white', textAlign: 'center'}}>Watch launch</Text>
+                    </TouchableOpacity>
                 </ScrollView>
             </View>
-            <TouchableOpacity onPress={()=>{openUrl(response.links.webcast)}} style={
-                {
-                    backgroundColor: "red",
-                    width: 70,
-                    height: 70,
-                    borderRadius: 90,
-                    bottom: 10,
-                    right: 10,
-                    position: "absolute"
-                }
-            }>
-                <View>
-                    <Icon style={
-                        {
-                            color: 'white',
-                            left: '50%',
-                            top: '50%',
-                            transform: [
-                                {
-                                    translateX: -25
-                                }, {
-                                    translateY: -18
-                                }
-                            ],
-                            fontSize: 50
-                        }
-                    } name="youtube"/>
-                </View>
-            </TouchableOpacity>
         </View>
     );
 }
@@ -91,4 +73,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    data: {
+		padding: 15,
+	  },
 });

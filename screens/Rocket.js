@@ -15,6 +15,7 @@ export default function Rocket({navigation, route}) {
 		height: {},
 		diameter: {},
 		mass: {},
+		engines: {},
 	});
 
 	useEffect(() => {
@@ -26,7 +27,7 @@ export default function Rocket({navigation, route}) {
 
 	return (
 		<View style={{height: '100%', flex: 1,}}>
-		<View style={{height: '60%', justifyContent: 'center', alignItems: 'center'}}>
+		<View style={{height: '55%', justifyContent: 'center', alignItems: 'center'}}>
 			<TouchableOpacity style={{position: 'absolute', left: 0, top: 0, padding: 30, zIndex: 2}} onPress={() => navigation.goBack()}>
 				<Image style={{position: 'relative', top: 40}} source={arrow} />
 			</TouchableOpacity>
@@ -34,7 +35,7 @@ export default function Rocket({navigation, route}) {
 			<View style={{width: '100%', height: '100%', position: 'absolute', backgroundColor: 'rgba(0, 0, 0, 0.35)'}}></View>
 			<Text style={{fontWeight: 'bold', color: 'white', fontSize: 42}}>{response.name}</Text>
 		</View>
-		<View style={{height: '50%', padding: 20, backgroundColor: '#fff', width: '100%', position: 'absolute', bottom: 0, borderTopLeftRadius: 10, borderTopRightRadius: 10}}>
+		<View style={{height: '55%', padding: 20, backgroundColor: '#fff', width: '100%', position: 'absolute', bottom: 0, borderTopLeftRadius: 10, borderTopRightRadius: 10}}>
 			<Text style={{textAlign: 'center', fontWeight: 'bold', fontSize: 18, marginBottom: 15}}>{response.name}</Text>
 			<ScrollView>
 				<Text>{response.description}</Text>
@@ -50,6 +51,10 @@ export default function Rocket({navigation, route}) {
 					<DataTable.Row>
 						<DataTable.Cell textStyle={{fontWeight: 'bold'}}>Mass:</DataTable.Cell>
 						<DataTable.Cell>{response.mass.kg} kg</DataTable.Cell>
+					</DataTable.Row>
+					<DataTable.Row>
+						<DataTable.Cell textStyle={{fontWeight: 'bold'}}>total engines:</DataTable.Cell>
+						<DataTable.Cell>{response.engines.number}</DataTable.Cell>
 					</DataTable.Row>
     			</DataTable>
 			</ScrollView>
