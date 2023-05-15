@@ -10,14 +10,22 @@ import Landpad from "./Landpad.js";
 import LaunchScreen from './Launch.js';
 
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
+import { FAB } from 'react-native-paper';
 
 function MapViewRender({navigation}) {
 
 	const [region, setRegion] = useState({
-		latitude: 0,
-		longitude: 0,
-		latitudeDelta: 0.0922,
-		longitudeDelta: 0.0421,
+		latitude: 33.919434,
+		longitude: -100.353996,
+		latitudeDelta: 50,
+		longitudeDelta: 50,
+	});
+
+	const [userLocation, setUserLocation] = useState({
+		latitude: 33.919434,
+		longitude: -100.353996,
+		latitudeDelta: 50,
+		longitudeDelta: 50,
 	});
 
 	useEffect(() => {
@@ -35,7 +43,7 @@ function MapViewRender({navigation}) {
 			locationFormat.longitude = location.coords.longitude;
 			locationFormat.latitudeDelta = region.latitudeDelta;
 			locationFormat.longitudeDelta = region.longitudeDelta;
-			setRegion(locationFormat);
+			setUserLocation(locationFormat);
 		})();
 	}, []);
 
@@ -68,18 +76,17 @@ function MapViewRender({navigation}) {
 		});
 	}
 
+	let setToCurrentLocation = async () => {
+		this.googleMap.animateToRegion(userLocation);
+	}
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<MapView
 				provider={PROVIDER_GOOGLE}
 				style={styles.map}
 				//specify our coordinates.
-				region={{
-					latitude: 33.919434,
-					longitude: -100.353996,
-					latitudeDelta: 50,
-					longitudeDelta: 50,
-				}}
+				region={region}
 				ref={(gMap) => this.googleMap = gMap}
 			>
 				{launchPads[0] !== 0 && launchPads.map((marker) => {
@@ -112,7 +119,23 @@ function MapViewRender({navigation}) {
 					);
 				})
 				}
+				<Marker coordinate={{
+					latitude: userLocation.latitude,
+					longitude: userLocation.longitude,
+				}}
+				image={require('../imgs/user.png')}/>
 			</MapView>
+			<FAB
+				icon="crosshairs-gps"
+				onPress={() => setToCurrentLocation()}
+				customSize={50}
+				style={{
+					position: 'absolute',
+					margin: 5,
+					left: 0,
+					bottom: 0
+				}}
+			/>
 		</SafeAreaView>
 	)
 }
