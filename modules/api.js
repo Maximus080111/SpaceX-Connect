@@ -1,19 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const apiLib = {
-    capsules: "https://api.spacexdata.com/v4/capsules/",
-    company_info: "https://api.spacexdata.com/v4/company/",
-    cores: "https://api.spacexdata.com/v4/cores/",
-    crew: "https://api.spacexdata.com/v4/crew/",
-    dragons: "https://api.spacexdata.com/v4/dragons/",
-    landpads: "https://api.spacexdata.com/v4/landpads/",
-    launches: "https://api.spacexdata.com/v4/launches/",
-    launchpads: "https://api.spacexdata.com/v4/launchpads/",
-    payloads: "https://api.spacexdata.com/v4/payloads/",
-    roadster: "https://api.spacexdata.com/v4/roadster/",
-    rockets: "https://api.spacexdata.com/v4/rockets/",
-    ships: "https://api.spacexdata.com/v4/ships/",
-    starlink: "https://api.spacexdata.com/v4/starlink/"
+    capsules: "https://api.spacexdata.com/latest/capsules/",
+    company_info: "https://api.spacexdata.com/latest/company/",
+    cores: "https://api.spacexdata.com/latest/cores/",
+    crew: "https://api.spacexdata.com/latest/crew/",
+    dragons: "https://api.spacexdata.com/latest/dragons/",
+    landpads: "https://api.spacexdata.com/latest/landpads/",
+    launches: "https://api.spacexdata.com/latest/launches/",
+    launchpads: "https://api.spacexdata.com/latest/launchpads/",
+    payloads: "https://api.spacexdata.com/latest/payloads/",
+    roadster: "https://api.spacexdata.com/latest/roadster/",
+    rockets: "https://api.spacexdata.com/latest/rockets/",
+    ships: "https://api.spacexdata.com/latest/ships/",
+    starlink: "https://api.spacexdata.com/latest/starlink/"
 }
 
 export async function createRequest(module, queryParams = "", useLocal = true){
