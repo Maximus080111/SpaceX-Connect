@@ -1,4 +1,4 @@
-<p align="center"> <img src="https://github.com/Maximus080111/SpaceX-Connect/blob/master/imgs/md_img.jpg"></p>
+<p align="center"> <img src="https://github.com/Maximus080111/SpaceX-Connect/blob/master/imgs/md_img.png"></p>
 <h1 align="center"> SpaceX-Connect <h1>
 
 ## Summary
