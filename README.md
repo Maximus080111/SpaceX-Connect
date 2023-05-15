@@ -5,12 +5,14 @@
 This is an app that gets data from a public SpaceX API and visualizes it in aan react native app. 
 
 The API that we use is an SpaceX REST API. The link to this API is down below:
+<br>
 [Link to the SPaceX REST API](https://github.com/r-spacex/SpaceX-API)
 
 ## react native map 
 This app also uses a google map to accurately pinpoint all launchsites an visualizes it for the user. The user also can call a route to this launchsite via google maps.
 
 Link to the react-native-maps github is down below:
+<br>
 [Link to the react-native-maps](https://github.com/react-native-maps/react-native-maps)
 
 ## Dependencies
