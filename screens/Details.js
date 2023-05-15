@@ -128,10 +128,12 @@ function MapViewRender({navigation}) {
 			<FAB
 				icon="crosshairs-gps"
 				onPress={() => setToCurrentLocation()}
-				customSize={50}
+				customSize={60}
+				color='black'
 				style={{
 					position: 'absolute',
 					margin: 5,
+					backgroundColor: 'white',
 					left: 0,
 					bottom: 0
 				}}
