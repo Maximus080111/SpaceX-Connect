@@ -22,10 +22,10 @@ function MapViewRender({navigation}) {
 	});
 
 	const [userLocation, setUserLocation] = useState({
-		latitude: 33.919434,
-		longitude: -100.353996,
-		latitudeDelta: 50,
-		longitudeDelta: 50,
+		latitude: 0,
+		longitude: 0,
+		latitudeDelta: 0,
+		longitudeDelta: 0,
 	});
 
 	useEffect(() => {
@@ -59,9 +59,16 @@ function MapViewRender({navigation}) {
 			setLandPads(response);
 		})();
 	}, [])
+	useEffect(() => {
+		(async () => {
+			let response = await api.createRequest("starlink");
+			setStarlink(response);
+		})();
+	}, [])
 
 	let [launchPads, setLaunchPads] = useState([])
 	let [landPads, setLandPads] = useState([])
+	let [starlink, setStarlink] = useState([])
 
 	let openLaunchpad = async (launchpad) => {
 		let launchPadID = launchpad._targetInst.return.key;
@@ -75,6 +82,8 @@ function MapViewRender({navigation}) {
 			"landPadID": landPadID
 		});
 	}
+
+	let [enableSats, setEnableSats] = useState(true);
 
 	let setToCurrentLocation = async () => {
 		this.googleMap.animateToRegion(userLocation);
@@ -119,7 +128,25 @@ function MapViewRender({navigation}) {
 					);
 				})
 				}
-				<Marker coordinate={{
+				{starlink[0] !== 0 && enableSats && starlink.map((marker) => {
+					if(marker.latitude !== null && marker.longitude !== null){
+						return (
+							<Marker
+								key={marker.id}
+								coordinate={{
+									latitude: marker.latitude,
+									longitude: marker.longitude,
+								}}
+								title={marker.name}
+								image={require('../imgs/sattelite.png')}
+								onPress={(marker) => {openLandpad(marker)}}
+							/>
+						);
+					}
+				})
+				}
+				<Marker 
+				coordinate={{
 					latitude: userLocation.latitude,
 					longitude: userLocation.longitude,
 				}}
@@ -135,6 +162,19 @@ function MapViewRender({navigation}) {
 					margin: 5,
 					backgroundColor: 'white',
 					left: 0,
+					bottom: 0
+				}}
+			/>
+			<FAB
+				icon="satellite-uplink"
+				onPress={() => {setEnableSats(!enableSats)}}
+				customSize={60}
+				color='black'
+				style={{
+					position: 'absolute',
+					margin: 5,
+					backgroundColor: 'white',
+					left: 65,
 					bottom: 0
 				}}
 			/>
