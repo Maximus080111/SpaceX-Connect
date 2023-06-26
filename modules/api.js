@@ -8,6 +8,8 @@ const apiLib = {
     dragons: "https://api.spacexdata.com/latest/dragons/",
     landpads: "https://api.spacexdata.com/latest/landpads/",
     launches: "https://api.spacexdata.com/latest/launches/",
+    launchesspacex: "https://content.spacex.com/api/spacex-website/launches-page-tiles",
+    launchspacex: "https://content.spacex.com/api/spacex-website/missions/",
     launchpads: "https://api.spacexdata.com/latest/launchpads/",
     payloads: "https://api.spacexdata.com/latest/payloads/",
     roadster: "https://api.spacexdata.com/latest/roadster/",
