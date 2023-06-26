@@ -27,6 +27,9 @@ import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import Launchpad from "./screens/Launchpad";
 import Landpad from "./screens/Landpad";
 import LaunchScreen from './screens/Launch.js';
+import LaunchSpaceXScreen from './screens/LaunchSpaceX.js';
+
+import 'react-native-url-polyfill/auto';
 
 const profile = {uri: 'https://reactjs.org/logo-og.png'};
 
@@ -67,14 +70,15 @@ function HomeScreenRender({ navigation }) {
 	useEffect(() => {
         (async () => {
             let rockets = await api.createRequest("Rockets");
-			let next = await api.createRequest("launches", "next");
 			let launchpad = await api.createRequest("Launchpads");
 			let landingpad = await api.createRequest("Landpads");
             setCards(rockets);
-			setNextLaunch(next);
 			setLaunchpads(launchpad);
 			setLandpads(landingpad);
-			let launches = await api.createRequest("Launches");
+			let launches = await api.createRequest("launchesSpaceX");
+			launches = launches.reverse();
+			let next = await api.createRequest("LaunchSpaceX",new URLSearchParams(launches[0].link.split("?")[1]).get("missionId"));
+			setNextLaunch(next);
 			setLaunches(launches);
         })();
     }, [])
@@ -97,7 +101,7 @@ function HomeScreenRender({ navigation }) {
 		});
 	}
 	let openLaunch = async (launchID) => {
-		navigation.navigate("Launch", {
+		navigation.navigate("LaunchSpaceX", {
 			"launchID": launchID
 		});
 	}
@@ -110,9 +114,9 @@ function HomeScreenRender({ navigation }) {
 					{/* <Image style={styles.launch_img}></Image> */}
 					<Text style={{color: 'white', fontWeight: '900', fontSize: 22}}>Latest Launch</Text>
 					<View style={styles.view_launch}>
-						<Text style={styles.launch_text_title}>{nextlaunch.name}</Text>
+						<Text style={styles.launch_text_title}>{nextlaunch.title}</Text>
 						{/* <Text style={styles.launch_text_date}>{nextlaunch.date_local}</Text> */}
-						<Button onPress={() => {openUrl(nextlaunch.links.webcast)}} title='watch back' />
+						<Button onPress={() => {openUrl("https://youtube.com/watch?v="+nextlaunch.youtubeVideoId)}} title='watch back' />
 					</View>
 				</View>
 				<View style={styles.scrollview}>
@@ -174,10 +178,10 @@ function HomeScreenRender({ navigation }) {
 				<ScrollView horizontal={true}>
 					{launches[0] !== 0 && launches.map((launches) => {
 						return (
-							<TouchableOpacity key={launches.id} style={styles.card} onPress={(event) => {openLaunch(launches.id)}}>
-								<Text style={styles.text}>{launches.name}</Text>
+							<TouchableOpacity key={launches.id} style={styles.card} onPress={(event) => {openLaunch(new URLSearchParams(launches.link.split("?")[1]).get("missionId"))}}>
+								<Text style={styles.text}>{launches.title}</Text>
 								<View style={styles.overlay}></View>
-								<Image source={{uri: launches.links.patch.small}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
+								<Image source={{uri: launches.imageDesktop.formats.small.url}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
 								{/* <Button title="Go to Home" onPress={() => navigation.navigate('Home')} />
 									<Button title="Go back" onPress={() => navigation.goBack()} /> */}
 							</TouchableOpacity>
@@ -214,6 +218,7 @@ function HomeScreen() {
 			<Stack.Screen name="Launchpad" component={Launchpad} options={{ headerShown: false }}/>
 			<Stack.Screen name="Landpad" component={Landpad} options={{ headerShown: false }}/>
 			<Stack.Screen name="Launch" component={LaunchScreen} options={{ headerShown: false }}/>
+			<Stack.Screen name="LaunchSpaceX" component={LaunchSpaceXScreen} options={{ headerShown: false }}/>
 		</Stack.Navigator>
 	);
 }
