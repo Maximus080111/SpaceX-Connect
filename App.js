@@ -112,7 +112,7 @@ function HomeScreenRender({ navigation }) {
 				{/* This part is for the upcoming launch  */}
 				<View style={styles.upcomingLaunch}>
 					{/* <Image style={styles.launch_img}></Image> */}
-					<Text style={{color: 'white', fontWeight: '900', fontSize: 22}}>Latest Launch</Text>
+					<Text style={{color: 'white', fontWeight: '900', fontSize: 25}}>Latest Launch</Text>
 					<View style={styles.view_launch}>
 						<Text style={styles.launch_text_title}>{nextlaunch.title}</Text>
 						{/* <Text style={styles.launch_text_date}>{nextlaunch.date_local}</Text> */}
@@ -307,8 +307,7 @@ const styles = StyleSheet.create({
 	},
 	launch_text_title: {
 		color: 'white',
-		fontWeight: 900,
-		marginVertical: 10
+		fontWeight: 900
 	},
 	launch_text_date: {
 		color: 'white',
@@ -361,6 +360,8 @@ const styles = StyleSheet.create({
 		fontWeight: '800',
         color: 'white',
 		fontSize: 18,
+		textAlign: 'center',
+		paddingHorizontal: 2,
     },
     overlay: {
         width: '100%',
