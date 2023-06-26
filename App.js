@@ -105,11 +105,6 @@ function HomeScreenRender({ navigation }) {
 	return (
 		<SafeAreaView style={styles.container}>
 			<ScrollView showsVerticalScrollIndicator={false}>
-				<View style={styles.profileBox}>
-					<Image style={styles.profile} source={profile}></Image>
-					<Text style={styles.welcome}>Welcome User</Text>
-				</View>
-
 				{/* This part is for the upcoming launch  */}
 				<View style={styles.upcomingLaunch}>
 					{/* <Image style={styles.launch_img}></Image> */}
@@ -297,6 +292,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#000',
 		height: 150,
 		borderRadius: 10,
+		marginTop: 20,
 	},
 	launch_img: {
 		backgroundColor: 'red',
