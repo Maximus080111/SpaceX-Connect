@@ -67,6 +67,8 @@ function HomeScreenRender({ navigation }) {
 
 	let [launches, setLaunches] = useState([]);
 
+	let [count, setCount] = useState(0);
+
 	useEffect(() => {
         (async () => {
             let rockets = await api.createRequest("Rockets");
@@ -123,8 +125,9 @@ function HomeScreenRender({ navigation }) {
 					<Text style={styles.RocketsTitle}>All rockets:</Text>
 					<ScrollView horizontal={true} scroll>
 						{cards[0] !== 0 && cards.map((card) => {
+							count++;
 							return (
-								<TouchableOpacity key={card.id} onPress={(event) => {openRocket(card.id)}}  style={styles.card}>
+								<TouchableOpacity key={count.toString()} onPress={(event) => {openRocket(card.id)}}  style={styles.card}>
 									<Text style={styles.text}>{card.name}</Text>
 									<View style={styles.overlay}></View>
 									<Image source={{uri: card.flickr_images[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
@@ -141,8 +144,9 @@ function HomeScreenRender({ navigation }) {
 					<Text style={styles.RocketsTitle}>All launchpads:</Text>
 					<ScrollView horizontal={true}>
 						{launchpads[0] !== 0 && launchpads.map((launchpad) => {
+							count++;
 							return (
-								<TouchableOpacity key={launchpad.id} style={styles.card} onPress={(event) => {openLaunchpad(launchpad.id)}}>
+								<TouchableOpacity key={count.toString()} style={styles.card} onPress={(event) => {openLaunchpad(launchpad.id)}}>
 									<Text style={styles.text}>{launchpad.name}</Text>
 									<View style={styles.overlay}></View>
 									<Image source={{uri: launchpad.images.large[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
@@ -154,13 +158,14 @@ function HomeScreenRender({ navigation }) {
 						}
 					</ScrollView>
 				</View>
-				
+
 				<View style={styles.scrollview}>
 					<Text style={styles.RocketsTitle}>All Landingpads:</Text>
 				<ScrollView horizontal={true}>
 					{landpads[0] !== 0 && landpads.map((landpads) => {
+						count++;
 						return (
-							<TouchableOpacity key={landpads.id} style={styles.card} onPress={(event) => {openLandpad(landpads.id)}}>
+							<TouchableOpacity key={count.toString()} style={styles.card} onPress={(event) => {openLandpad(landpads.id)}}>
 								<Text style={styles.text}>{landpads.name}</Text>
 								<View style={styles.overlay}></View>
 								<Image source={{uri: landpads.images.large[0]}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
@@ -177,8 +182,9 @@ function HomeScreenRender({ navigation }) {
 				<Text style={styles.RocketsTitle}>All launches:</Text>
 				<ScrollView horizontal={true}>
 					{launches[0] !== 0 && launches.map((launches) => {
+						count++
 						return (
-							<TouchableOpacity key={launches.id} style={styles.card} onPress={(event) => {openLaunch(new URLSearchParams(launches.link.split("?")[1]).get("missionId"))}}>
+							<TouchableOpacity key={count.toString()} style={styles.card} onPress={(event) => {openLaunch(new URLSearchParams(launches.link.split("?")[1]).get("missionId"))}}>
 								<Text style={styles.text}>{launches.title}</Text>
 								<View style={styles.overlay}></View>
 								<Image source={{uri: launches.imageDesktop.formats.small.url}} style={{width: '100%', height: '100%', borderRadius: 5,  position: 'absolute', zIndex: -2}} resizeMode='cover' />
