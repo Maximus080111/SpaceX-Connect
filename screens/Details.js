@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, StyleSheet, Text, View, SafeAreaView } from 'react-native';
 
 import * as Location from 'expo-location';
-import MapView, { Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 
 import * as api from '../modules/api.js'
 import Launchpad from "./Launchpad.js";
@@ -139,7 +139,6 @@ function MapViewRender({navigation}) {
 								}}
 								title={marker.name}
 								image={require('../imgs/sattelite.png')}
-								onPress={(marker) => {openLandpad(marker)}}
 							/>
 						);
 					}

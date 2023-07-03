@@ -27,7 +27,12 @@
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.FOREGROUND_SERVICE"
       ],
-      "package": "com.gerrietech.SpaceXConnect"
+      "package": "com.gerrietech.spacexconnect",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyCUrA6JnTw7ZQ2P_QdXmvavYntsmLymZcA"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
